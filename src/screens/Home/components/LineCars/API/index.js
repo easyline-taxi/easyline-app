@@ -33,7 +33,7 @@ export default function LineCars() {
   }, []);
 
   async function loadData() {
-    const response = await api.get("api/users?page=2");
+    const response = await api("POST", "api/users?page=2");
 
     const data = response.data.data.map((item, i) => ({
       key: i.toString(),

@@ -27,7 +27,7 @@ export default function UserInfo({ type }) {
     const token = await SecureStore.getItemAsync("token");
     let data1;
     try {
-      data1 = await api("GET", "/users/data", null, token);
+      data1 = await api("POST", "/users/data", null, token);
       await SecureStorage.setItemAsync("dataUser",JSON.stringify(data1.result))
       // const azul = JSON.parse((await SecureStorage.getItemAsync("dataUser")))
       setData(data1.result)
@@ -48,7 +48,7 @@ export default function UserInfo({ type }) {
       }
     })();
 
-    getData();
+    // getData();
   }, []);
 
   const pickImage = async () => {
@@ -81,7 +81,7 @@ export default function UserInfo({ type }) {
       <S.AvatarContainer type={type}>
         <S.AvatarImage type={type} source={{ uri: image }} />
       </S.AvatarContainer>
-      <S.UserDataContainer type={type}>
+      {/* <S.UserDataContainer type={type}>
         <S.Title type={type} style={{ fontFamily: "JosefinSans_600SemiBold" }}>
           {type === "admin" && `Olá ${data.name}`}
           {type === "plans" && `Olá ${data.name}`}
@@ -95,7 +95,7 @@ export default function UserInfo({ type }) {
           {type === "home" && `MOTORISTA - VTR ${data.vtr}`}
           {type === "plans" && "É bom ve-lo(a) aqui novamente!"}
         </S.UserType>
-      </S.UserDataContainer>
+      </S.UserDataContainer> */}
       {type == "user" && (
         <S.ContainerCam onPress={pickImage}>
           <S.TextCam>Alterar foto</S.TextCam>

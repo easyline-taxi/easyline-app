@@ -20,6 +20,22 @@ export default function Input() {
               onChangeText={() => console.log("Pressed")}
             />
             <S.Space />
+            <S.TextInputName>CPF</S.TextInputName>
+            <S.InputName
+              editable={false}
+              mode="outlined"
+              label="CPF"
+              onChangeText={() => console.log("Pressed")}
+              />
+            <S.Space />
+            <S.TextInputName>E-mail</S.TextInputName>
+            <S.InputName
+              editable={false}
+              mode="outlined"
+              label="E-mail"
+              onChangeText={() => console.log("Pressed")}
+            />
+            <S.Space />
             <S.TextInputName>Senha</S.TextInputName>
             <S.InputVtr
               mode="outlined"
