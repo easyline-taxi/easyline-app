@@ -17,7 +17,7 @@ export default function Register(props) {
   const navigation = useNavigation();
 
   async function handleSubmit(data) {
-    const { name, email, password, nameofpoint, city, country, vtr } = data;
+    const { name, cpf, email, password, nameofpoint, city, country, vtr } = data;
     let validationErrors = {};
     const registerValidator = new Validator();
 
@@ -39,6 +39,7 @@ export default function Register(props) {
       const deviceId = Application.androidId;
 
       const body = {
+        cpf,
         email,
         deviceId,
         name,
@@ -77,6 +78,7 @@ export default function Register(props) {
           <S.ContainerIntroInput>
             <Form ref={formRef} onSubmit={handleSubmit}>
               <Input label="Nome" name="name" />
+              <Input label="CPF" name="cpf" keyboardType="numeric" type="text" />
 
               <Input label="E-mail" name="email" type="email" />
               <Input label="Senha" name="password" type="password" secureTextEntry={true} />
