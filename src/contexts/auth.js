@@ -1,25 +1,35 @@
-import React, { createContext } from 'react'
 
-import api from '../Services/auth'
+import React, { createContext, useContext, useState } from 'react'
+import * as SecureStore from 'expo-secure-store';
+
+import * as auth from '../Services/auth'
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
+  const [user, setUser] = useState(null); // There will be user object data.
 
-  async function Login() {
-    try {
-      const response = await api.post('/users/login', {
-        email: "",
-        senha: "",
-      });
-      console.log(response.data)
-    } catch (e) {
-      console.log(e) 
-    }
-    
+  async function signIn(userData) {
+    const response = await auth.signIn(userData);
+
+    setUser(true);
+    await SecureStore.setItemAsync("token", response.token)
   }
 
-  return <AuthContext.Provider value={{signed: true, Login}}>{children}</AuthContext.Provider>;
+  async function signUp(userData) {
+    await auth.signUp(userData);
+  }
+
+  async function signOut() {
+    setUser(null);
+    await SecureStore.deleteItemAsync("token");
+  }
+
+  return <AuthContext.Provider value={{signed: !!user, user, signIn, signUp, signOut}}>{children}</AuthContext.Provider>;
 }
 
-export default AuthContext;
+export function useAuth() {
+  const context = useContext(AuthContext);
+
+  return context;
+};

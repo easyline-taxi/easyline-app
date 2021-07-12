@@ -1,3 +1,4 @@
+
 import React, { useRef } from "react";
 import { Alert, Button, Image, Text, View, touco } from "react-native";
 import { Form } from "@unform/mobile";
@@ -6,8 +7,9 @@ import * as Yup from "yup";
 import * as Application from "expo-application";
 
 import * as S from "./styles";
+
 import Input from "./components/Input";
-import api from "./../../../Services/api";
+import { useAuth } from "../../../contexts/auth";
 import { Validator } from "../../../validators";
 
 // import { getUniqueId } from 'react-native-device-info';
@@ -15,6 +17,8 @@ import { Validator } from "../../../validators";
 export default function Register(props) {
   const formRef = useRef(null);
   const navigation = useNavigation();
+
+  const { signUp } = useAuth();
 
   async function handleSubmit(data) {
     const { name, cpf, email, password, nameofpoint, city, country, vtr } = data;
@@ -50,8 +54,8 @@ export default function Register(props) {
         country,
         admin: props.type == "admin" ? true : false,
       };
-      const response = await api("POST", "/users/register", body);
 
+      await handleSignUp(body);
       Alert.alert("Sucesso!", "Cadastro realizado com sucesso.");
 
       navigation.navigate("Welcome");
@@ -64,6 +68,9 @@ export default function Register(props) {
         console.log(err);
       }
     }
+  }
+  async function handleSignUp(userData) {
+    await signUp(userData);
   }
 
   return (

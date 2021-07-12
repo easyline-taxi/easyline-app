@@ -1,7 +1,11 @@
-import axios from 'axios'
+import api from "./api";
 
-const api = axios.create({
-  baseURL: 'http://easyline.ml'
-});
+export async function signIn(userData) {
+  return await api("POST", "/users/login", userData);
+};
 
-export default api;
+export async function signUp(userData) {
+  await api("POST", "/users/register", userData);
+};
+
+export function signOut() {};
