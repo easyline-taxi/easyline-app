@@ -1,4 +1,4 @@
-const requestUrl = process.env.REACT_APP_REQUEST_URL || "http://easyline.ml";
+const requestUrl = process.env.REACT_APP_REQUEST_URL || "http://easyline.ml:4000";
 
 const api = async (method, path, data, token) => {
     let response;

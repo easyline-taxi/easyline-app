@@ -25,11 +25,11 @@ export default function LineCars() {
   const [lines, setLines] = useState([]);
   const [listData, setListData] = useState(
     Array(20)
-      .fill("")
-      .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))
-  );
+    .fill("")
+    .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))
+    );
   useEffect(() => {
-    loadData();
+    // loadData();
   }, []);
 
   async function loadData() {
@@ -127,7 +127,7 @@ export default function LineCars() {
         <Container>
           <Texto>FILA DE VTR'S</Texto>
           <View style={styles.container}>
-            <SwipeListView
+            {/* <SwipeListView
               style={styles.swipelistview}
               data={lines}
               renderItem={renderItem}
@@ -139,7 +139,7 @@ export default function LineCars() {
               previewOpenDelay={3000}
               onRowDidOpen={onRowDidOpen}
               onSwipeValueChange={onSwipeValueChange}
-            />
+            /> */}
           </View>
         </Container>
       </TopContainer>

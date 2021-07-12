@@ -1,20 +1,22 @@
-import * as S from "./styles";
+
+import React, { useRef } from "react";
 import { Alert } from 'react-native';
-import React, { useContext, useRef } from "react";
+import * as Yup from "yup";
+import * as Application from 'expo-application';
+
+import * as S from "./styles";
+
 import { Form } from "@unform/mobile";
-import AuthContext from "../../../contexts/auth";
+import { useAuth } from "../../../contexts/auth";
 import { useNavigation } from "@react-navigation/native";
 import Input from "../../CreateAccount/Register/components/Input";
-import api from './../../../Services/api'
-import * as Yup from "yup";
-import * as SecureStore from 'expo-secure-store'
-import * as Application from 'expo-application';
 
 export default function login(props) {
   const navigation = useNavigation();
 
   const formRef = useRef(null);
-  const context = useContext(AuthContext);
+  const { signIn } = useAuth();
+
   const handleSubmit = async (data) => {
     const { email, password } = data;
     let validationErrors = {};
@@ -38,8 +40,8 @@ export default function login(props) {
         password,
         deviceId: Application.androidId
       };
-      const response = await api("POST",'/users/login',body)
-      await SecureStore.setItemAsync("token", response.token)
+
+      await handleSignIn(body);
       Alert.alert("Sucesso!", "Logado com Sucesso.");
 
       navigation.navigate("TabStack");
@@ -57,8 +59,8 @@ export default function login(props) {
       }
     }
   };
-  function handleLogin() {
-    context.Login();
+  async function handleSignIn(userData) {
+    await signIn(userData);
   }
 
   return (
