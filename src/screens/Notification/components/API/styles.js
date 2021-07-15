@@ -108,6 +108,14 @@ const styles = StyleSheet.create({
           borderRadius: normalize(16),
           margin: normalize(4),
       },
+    
+    notifyUrgent: {
+      backgroundColor: '#CE4848',
+    },
+
+    notifyNormal: {
+      backgroundColor: "#5D8233",
+    },
   
       containerFora:{
         backgroundColor: '#fff',
