@@ -35,12 +35,17 @@ export default function App() {
     modalizeRef.current?.open();
   };
 
+  const onClose = () => {
+    modalizeRef.current?.close();
+  }
+
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
 
   const [text, setText] = useState("");
+  const [notificationsList, setNotificationsList] = useState(null);
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
@@ -65,28 +70,45 @@ export default function App() {
     };
   }, []);
 
+  const isInitialMountSetMessages = useRef(true);
+  useEffect(() => {
+    if (isInitialMountSetMessages.current) {
+      isInitialMountSetMessages.current = false;
+    } else {
+      notification && handleSetMessages();
+    }
+  }, [notification])
+
+  async function handleSetMessages() {
+    setNotificationsList([...(notificationsList ? notificationsList : []), {
+      urgencyLevel: selectedValue === "urgent" ? styles.notifyUrgent : styles.notifyNormal,
+      title: `${notification.request.content.title} 📣`,
+      content: notification.request.content.body,
+      date: Date().toString(),
+    }])
+  }
+
   return (
     <View style={styles.topContainer}>
       <View style={styles.container}>
         <ScrollView>
-          {notification && (
-            <View style={styles.containernotify}>
+            { notificationsList && notificationsList.map((notify, i) => (
+            <View key={i} style={[styles.containernotify, notify.urgencyLevel ]}>
               <View style={styles.infoContainer}>
                 <Text style={styles.name}>
-                  {notification && notification.request.content.title}
+                  {notification && notify.title}
                 </Text>
                 <Text style={styles.message}>
-                  {notification && notification.request.content.body}
+                  {notification && notify.content}
                 </Text>
                 <View style={styles.dataHour}>
-                  <Text>{expoPushToken}</Text>
                   <Text style={styles.date}>
-                    {notification && notification.request.content.subtitle}
+                    {notification && notify.date}
                   </Text>
                 </View>
               </View>
             </View>
-          )}
+            ))}
         </ScrollView>
       </View>
 
@@ -98,12 +120,12 @@ export default function App() {
               <Picker
                 selectedValue={selectedValue}
                 style={{ height: 50, width: 330 }}
-                onValueChange={(itemValue, itemIndex) =>
+                onValueChange={(itemValue, itemIndex) => 
                   setSelectedValue(itemValue)
                 }
               >
-                <Picker.Item label="Sem Urgência" value="java" />
-                <Picker.Item label="Urgente" value="js" />
+                <Picker.Item label="Sem Urgência" value="normal" color="#5D8233" />
+                <Picker.Item label="Urgente" value="urgent" color="#CE4848" />
               </Picker>
             </View>
             <TextInput
@@ -115,6 +137,7 @@ export default function App() {
               style={styles.button}
               onPress={async () => {
                 await schedulePushNotification(text);
+                onClose();
               }}
             >
               <Text style={styles.text}>Enviar Notificação</Text>
@@ -138,7 +161,7 @@ export default function App() {
 async function schedulePushNotification(text) {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "Sergio Camargo 📣",
+      title: "Sergio Camargo",
       body: text,
       subtitle: Date().toString(),
     },
