@@ -61,6 +61,8 @@
     "react-native-swipe-list-view": "^3.2.6",
     "react-native-web": "~0.13.12",
     "react-native-webview": "^11.0.2",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0",
     "styled-components": "^5.2.1",
     "styled-px2vw": "^2.0.0",
     "yup": "^0.32.9"

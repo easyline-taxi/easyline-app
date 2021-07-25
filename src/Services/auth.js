@@ -1,11 +1,22 @@
 import api from "./api";
+import fakeApi from "./fakeApi";
+
+let usingFakeApi = true;
 
 export async function signIn(userData) {
-  return await api("POST", "/users/login", userData);
-};
+  if (!usingFakeApi) {
+    return await api("POST", "/users/login", userData);
+  } else {
+    return await fakeApi("POST", "/api/login", { ...userData, email: "eve.holt@reqres.in" });
+  }
+}
 
 export async function signUp(userData) {
-  await api("POST", "/users/register", userData);
-};
+  if (!usingFakeApi) {
+    return await api("POST", "/users/register", userData);
+  } else {
+    return await fakeApi("POST", "/api/register", usersData);
+  }
+}
 
-export function signOut() {};
+export function signOut() {}

@@ -1,3 +1,5 @@
+import { Provider } from "react-redux";
+
 import * as S from "./styles";
 
 import ContainerPage from "../../components/ContainerPage";
@@ -6,12 +8,16 @@ import Header from "../../components/Header";
 import React from "react";
 import Send from "../../screens/Chat/components/Send";
 
+import store from "./store";
+
 export default function Chat() {
   return (
     <ContainerPage>
       <Header />
-      <Conversations />
-      <Send />
+      <Provider store={store}>
+        <Conversations />
+        <Send />
+      </Provider>
     </ContainerPage>
   );
 }

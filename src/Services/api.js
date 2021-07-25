@@ -1,4 +1,4 @@
-const requestUrl = process.env.REACT_APP_REQUEST_URL || "http://easyline.ml:4000";
+const requestUrl = process.env.REACT_APP_REQUEST_URL || "http://167.99.100.238:4000";
 
 const api = async (method, path, data, token) => {
     let response;
@@ -21,6 +21,7 @@ const api = async (method, path, data, token) => {
       });
   }
 
+  console.log(await response.json());
   if (!response.ok) {
     throw Error((await response.json()).message);
     // return
