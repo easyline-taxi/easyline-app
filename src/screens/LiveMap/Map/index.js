@@ -6,12 +6,13 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function App() {
+  const [maximumPolygonNodesLength] = useState(5);
   const [polygonEditingMode, setPolygonEditMode] = useState(false);
   const [editingPolygonNodes, setEditingPolygonNodes] = useState([]);
   const [polygonNodes, setPolygonNodes] = useState([]);
 
   function handleSetNode(coordinate) {
-    if (editingPolygonNodes.length < 4) {
+    if (editingPolygonNodes.length < maximumPolygonNodesLength) {
       setEditingPolygonNodes([...editingPolygonNodes, coordinate]);
     } else {
       setEditingPolygonNodes([]);
@@ -30,7 +31,7 @@ export default function App() {
   }
 
   function handleSaveEditingPolygonNodes() {
-    if (editingPolygonNodes.length === 4) {
+    if (editingPolygonNodes.length === maximumPolygonNodesLength) {
       setPolygonNodes(editingPolygonNodes);
       setEditingPolygonNodes([]);
       setPolygonEditMode(false);
@@ -47,8 +48,11 @@ export default function App() {
   }
 
   function handlePolygonEditingGoBack() {
-    if(editingPolygonNodes.length > 1) {
-      const removedLastIndexEditingPolygonNodes = editingPolygonNodes.slice(0, editingPolygonNodes.length-1)
+    if (editingPolygonNodes.length > 0) {
+      const removedLastIndexEditingPolygonNodes = editingPolygonNodes.slice(
+        0,
+        editingPolygonNodes.length - 1
+      );
 
       setEditingPolygonNodes([...removedLastIndexEditingPolygonNodes]);
     }
@@ -317,16 +321,6 @@ export default function App() {
         customMapStyle={mapStyle}
         onPress={handleMapPress}
       >
-        <MapView.Circle
-          center={{
-            latitude: -22.971208,
-            longitude: -43.184021,
-          }}
-          radius={400}
-          strokeWidth={2}
-          strokeColor="rgba(242,87,101,0.5)"
-          fillColor="rgba(242,87,101,0.3)"
-        />
         <Marker
           coordinate={{ latitude: -22.971208, longitude: -43.184021 }}
           title={"PA"}
@@ -335,7 +329,13 @@ export default function App() {
           <Image source={require("../../../../assets/img/taxi.png")} style={{ height: 55, width: 55 }} />
         </Marker>
         {editingPolygonNodes.length >= 1 && <Polygon coordinates={editingPolygonNodes} />}
-        {polygonNodes.length === 4 && <Polygon coordinates={polygonNodes} fillColor={`rgba(255,0,0, ${polygonEditingMode ? "0.2" : "0.4"})`} strokeColor={`rgba(0,0,0, ${polygonEditingMode ? "0.2" : "1"})`} />}
+        {polygonNodes.length === maximumPolygonNodesLength && (
+          <Polygon
+            coordinates={polygonNodes}
+            fillColor={`rgba(255,0,0, ${polygonEditingMode ? "0.2" : "0.4"})`}
+            strokeColor={`rgba(0,0,0, ${polygonEditingMode ? "0.2" : "1"})`}
+          />
+        )}
       </MapView>
       <View style={styles.buttonsContainer}>
         {polygonEditingMode && (
