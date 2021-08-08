@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import PointsManagerStack from "./pointsmanager.routes";
 import TabStack from "./tab.routes";
 import AdminStack from "./admin.routes";
 import Notification from "./notifications.routes";
@@ -14,7 +15,6 @@ import { initialWindowMetrics } from "react-native-safe-area-context";
 
 const AppStack = createStackNavigator();
 
-
 function AppRoutes() {
   return (
     <AppStack.Navigator
@@ -24,6 +24,7 @@ function AppRoutes() {
       }}
     >
       <AppStack.Screen name="SplashStack" component={Splash} />
+      <AppStack.Screen name="PointsManagerStack" component={PointsManagerStack} />
       <AppStack.Screen name="TabStack" component={TabStack} />
       <AppStack.Screen name="AdminStack" component={AdminStack} />
       <AppStack.Screen name="NotificationStack" component={Notification} />
