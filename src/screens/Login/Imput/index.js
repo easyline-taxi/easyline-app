@@ -43,8 +43,6 @@ export default function login(props) {
 
       await handleSignIn(body);
       Alert.alert("Sucesso!", "Logado com Sucesso.");
-
-      navigation.navigate("TabStack");
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         //validatoin fail

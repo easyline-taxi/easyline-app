@@ -11,7 +11,7 @@ const Splash = ({ navigation }) => {
   useEffect(() => {
     setTimeout(async () => {
       const token = await SecureStore.getItemAsync("token");
-      if (signed && token) navigation.navigate("TabStack");
+      if (signed && token) navigation.navigate("PointsManagerStack");
       else navigation.navigate("WelcomeStack");
     }, 2000);
   }, []);
