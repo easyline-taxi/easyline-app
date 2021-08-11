@@ -1,14 +1,27 @@
 import styled from "styled-components/native";
-import normalize from 'react-native-normalize';
+import normalize from "react-native-normalize";
 
 export const Container = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
+`;
+
+export const Header = styled.View`
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 14px;
+`;
+
+export const HeaderBackground = styled.View`
   background-color: #e9e9e9;
+  position: absolute;
+  height: 32px;
+  width: 100%;
 `;
 
 export const Main = styled.View`
+  background-color: #e9e9e9;
   align-items: center;
   width: 100%;
   height: 100%;
@@ -31,13 +44,12 @@ export const UserInfo = styled.View`
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  border-top-right-radius: 32px;
-  border-top-left-radius: 32px;
-  border-bottom-right-radius: 32px;
-  border-bottom-left-radius: 32px;
-  height: 100px;
+  border-top-right-radius: ${normalize(32)}px;
+  border-top-left-radius: ${normalize(32)}px;
+  border-bottom-right-radius: ${normalize(32)}px;
+  border-bottom-left-radius: ${normalize(32)}px;
+  height: ${normalize(100)}px;
   width: 100%;
-  top: -32px;
 `;
 
 export const UserDetailsContainer = styled.View`
@@ -47,23 +59,23 @@ export const UserDetailsContainer = styled.View`
 `;
 
 export const AvatarImage = styled.Image`
-  height: 50px;
-  width: 50px;
-  border-top-right-radius: 50px;
-  border-top-left-radius: 50px;
-  border-bottom-right-radius: 50px;
-  border-bottom-left-radius: 50px;
+  height: ${normalize(50)}px;
+  width: ${normalize(50)}px;
+  border-top-right-radius: ${normalize(50)}px;
+  border-top-left-radius: ${normalize(50)}px;
+  border-bottom-right-radius: ${normalize(50)}px;
+  border-bottom-left-radius: ${normalize(50)}px;
   border-width: 2px;
   border-color: #90ee90;
 `;
 
 export const UserDetailsMain = styled.View`
   flex-direction: column;
-  padding-left: 5px;
+  padding-left: ${normalize(5)}px;
 `;
 
 export const Username = styled.Text`
-  font-size: 24px;
+  font-size: ${normalize(24)}px;
   color: #000;
 `;
 
@@ -73,14 +85,14 @@ export const UserDetailsSub = styled.View`
 `;
 
 export const BulletSeparator = styled.Text`
-  width: 5px;
-  height: 5px;
-  border-top-right-radius: 25px;
-  border-top-left-radius: 25px;
-  border-bottom-right-radius: 25px;
-  border-bottom-left-radius: 25px;
-  margin-left: 5px;
-  margin-right: 5px;
+  width: ${normalize(5)}px;
+  height: ${normalize(5)}px;
+  border-top-right-radius: ${normalize(25)}px;
+  border-top-left-radius: ${normalize(25)}px;
+  border-bottom-right-radius: ${normalize(25)}px;
+  border-bottom-left-radius: ${normalize(25)}px;
+  margin-left: ${normalize(5)}px;
+  margin-right: ${normalize(5)}px;
   background-color: #878b95;
 `;
 
@@ -108,133 +120,16 @@ export const Points = styled.View`
 `;
 
 export const PointsTitle = styled.Text`
-  font-size: 14px;
+  font-size: ${normalize(14)}px;
   color: #000000de;
   text-transform: uppercase;
-  margin: 10px;
+  margin: ${normalize(10)}px;
 `;
 
 export const PointsCardsContainer = styled.View`
   align-items: center;
   justify-content: center;
   width: 90%;
-`;
-
-export const PointCard = styled.View`
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  height: 64px;
-  width: 100%;
-  background: #fff;
-  padding: 15px;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  margin: 3px;
-`;
-
-export const CardPointDetailsContainer = styled.View`
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`;
-
-export const CardPointImage = styled.Image`
-  height: 45px;
-  width: 45px;
-  border-top-right-radius: 9px;
-  border-top-left-radius: 9px;
-  border-bottom-right-radius: 9px;
-  border-bottom-left-radius: 9px;
-`;
-
-export const CardPointSign = styled.View`
-  height: 45px;
-  width: 45px;
-  background-color: #9862DE;
-  align-items: center;
-  justify-content: center;
-  border-top-right-radius: 9px;
-  border-top-left-radius: 9px;
-  border-bottom-right-radius: 9px;
-  border-bottom-left-radius: 9px;
-`;
-
-export const CardPointSignText = styled.Text`
-  font-size: ${normalize(29)}px;
-  color: #fff;
-`;
-
-export const CardPointMainDetails = styled.View`
-  align-items: flex-start;
-  justify-content: space-between;
-  padding-left: 5px;
-  height: 50px;
-`;
-
-export const CardPointTitleContainer = styled.View`
-  align-items: flex-start;
-  justify-content: center;
-`;
-
-export const CardPointTitle = styled.Text`
-  font-size: 13px;
-  color: #010101de;
-  line-height: 17px;
-  font-weight: 600;
-`;
-
-export const CardPointJoinedDate = styled.Text`
-  font-size: 6px;
-  color: #8d8a8ade;
-  line-height: 8px;
-`;
-
-export const CardPointOnlineAmountGreen = styled.Text`
-  font-size: 6px;
-  color: #ffffffde;
-  text-align: center;
-  text-align-vertical: center;
-  background-color: #0c9d11;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
-  height: 16px;
-  width: 38px;
-`;
-
-export const CardPointOnlineAmountRed = styled.Text`
-  font-size: 6px;
-  color: #ffffffde;
-  text-align: center;
-  text-align-vertical: center;
-  background-color: #d21212;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
-  height: 16px;
-  width: 38px;
-`;
-
-export const CardPointJoinButton = styled.TouchableOpacity`
-  align-items: center;
-  justify-content: center;
-  height: 22px;
-  width: 61px;
-  background-color: #0c9d11;
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-`;
-
-export const CardPointJoinButtonText = styled.Text`
-  font-size: 8px;
-  color: #fff;
 `;
 
 export const BottomContainer = styled.View`
@@ -247,7 +142,7 @@ export const BottomContainer = styled.View`
 export const SimpleButtonContainer = styled.View`
   align-items: center;
   justify-content: space-evenly;
-  height: 50px;
+  height: ${normalize(50)}px;
   width: 100%;
   flex-direction: row;
 `;
@@ -255,17 +150,17 @@ export const SimpleButtonContainer = styled.View`
 export const SimpleButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
-  height: 38px;
-  width: 167px;
+  height: ${normalize(38)}px;
+  width: ${normalize(167)}px;
   border-width: 1px;
   border-color: #3d065f;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-top-right-radius: ${normalize(5)}px;
+  border-top-left-radius: ${normalize(5)}px;
+  border-bottom-right-radius: ${normalize(5)}px;
+  border-bottom-left-radius: ${normalize(5)}px;
 `;
 
 export const SimpleButtonText = styled.Text`
-  font-size: 12px;
+  font-size: ${normalize(12)}px;
   color: #3d065f;
 `;

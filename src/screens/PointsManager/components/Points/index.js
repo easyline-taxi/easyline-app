@@ -2,6 +2,8 @@ import React from "react";
 
 import * as S from "./styles";
 
+import PointCard from "../PointCard";
+
 const Points = () => {
   const user = {
     data: {
@@ -28,7 +30,7 @@ const Points = () => {
       ],
       adminPoints: [
         {
-          pointName: "Ipanema Five Stars",
+          pointName: "Ipanema Five Stars At Night Bruh",
           joinedAt: "7 ago 21",
           onlineUsersLength: 5,
         },
@@ -48,7 +50,8 @@ const Points = () => {
 
   return (
     <S.Container>
-      <S.Main>
+      <S.Header>
+        <S.HeaderBackground></S.HeaderBackground>
         <S.UserInfo>
           <S.UserDetailsContainer>
             <S.AvatarImage source={{ uri: user.data.image }} />
@@ -62,31 +65,20 @@ const Points = () => {
             </S.UserDetailsMain>
           </S.UserDetailsContainer>
         </S.UserInfo>
+      </S.Header>
+      <S.Main>
         <S.MainScrollView>
           <S.PointsContainer>
             <S.Points>
               <S.PointsTitle>Pontos que você é motorista</S.PointsTitle>
               <S.PointsCardsContainer>
                 {user.data.driverPoints.map((point, i) => (
-                  <S.PointCard key={i}>
-                    <S.CardPointDetailsContainer>
-                      <S.CardPointSign>
-                        <S.CardPointSignText>LT</S.CardPointSignText>
-                      </S.CardPointSign>
-                      <S.CardPointMainDetails>
-                        <S.CardPointTitleContainer>
-                          <S.CardPointTitle>{point.pointName}</S.CardPointTitle>
-                          <S.CardPointJoinedDate>{point.joinedAt}</S.CardPointJoinedDate>
-                        </S.CardPointTitleContainer>
-                        <S.CardPointOnlineAmountRed>
-                          {point.onlineUsersLength} Online
-                        </S.CardPointOnlineAmountRed>
-                      </S.CardPointMainDetails>
-                    </S.CardPointDetailsContainer>
-                    <S.CardPointJoinButton>
-                      <S.CardPointJoinButtonText>Entrar</S.CardPointJoinButtonText>
-                    </S.CardPointJoinButton>
-                  </S.PointCard>
+                  <PointCard
+                    key={i}
+                    cardPointTitle={point.pointName}
+                    CardPointJoinedDate={point.joinedAt}
+                    cardPointOnlineUsersLength={point.onlineUsersLength}
+                  />
                 ))}
               </S.PointsCardsContainer>
             </S.Points>
@@ -94,25 +86,12 @@ const Points = () => {
               <S.PointsTitle>Pontos que você administra</S.PointsTitle>
               <S.PointsCardsContainer>
                 {user.data.adminPoints.map((point, i) => (
-                  <S.PointCard key={i}>
-                    <S.CardPointDetailsContainer>
-                      <S.CardPointSign>
-                        <S.CardPointSignText>LT</S.CardPointSignText>
-                      </S.CardPointSign>
-                      <S.CardPointMainDetails>
-                        <S.CardPointTitleContainer>
-                          <S.CardPointTitle>{point.pointName}</S.CardPointTitle>
-                          <S.CardPointJoinedDate>{point.joinedAt}</S.CardPointJoinedDate>
-                        </S.CardPointTitleContainer>
-                        <S.CardPointOnlineAmountRed>
-                          {point.onlineUsersLength} Online
-                        </S.CardPointOnlineAmountRed>
-                      </S.CardPointMainDetails>
-                    </S.CardPointDetailsContainer>
-                    <S.CardPointJoinButton>
-                      <S.CardPointJoinButtonText>Entrar</S.CardPointJoinButtonText>
-                    </S.CardPointJoinButton>
-                  </S.PointCard>
+                  <PointCard
+                    key={i}
+                    cardPointTitle={point.pointName}
+                    CardPointJoinedDate={point.joinedAt}
+                    cardPointOnlineUsersLength={point.onlineUsersLength}
+                  />
                 ))}
               </S.PointsCardsContainer>
             </S.Points>
