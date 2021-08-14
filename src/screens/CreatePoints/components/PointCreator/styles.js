@@ -13,6 +13,8 @@ export const Header = styled.View`
   height: ${normalize(133)}px;
   align-items: center;
   justify-content: flex-start;
+  border-bottom-width: 1px;
+  border-color: #D8BCF350;
 `;
 
 export const TitleContainer = styled.View`

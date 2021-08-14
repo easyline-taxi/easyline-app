@@ -13,7 +13,7 @@ import * as S from "./styles";
 const PointCreator = () => {
   const formRef = useRef(null);
 
-  const [freePlanToggleCheckBox, setFreePlanTogglePCheckBox] = useState(false);
+  const [freePlanToggleCheckBox, setFreePlanTogglePCheckBox] = useState(true);
   const [subscribePlanToggleCheckBox, setSubscribePlanToggleCheckBox] = useState(false);
 
   function handleToggleCheckBox(checkBoxName) {
