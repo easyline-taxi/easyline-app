@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import * as Yup from "yup";
 
 import { Form } from "@unform/mobile";
@@ -11,6 +12,7 @@ import { Validator } from "../../../../validators";
 import * as S from "./styles";
 
 const PointCreator = () => {
+  const navigation = useNavigation();
   const formRef = useRef(null);
 
   const [freePlanToggleCheckBox, setFreePlanTogglePCheckBox] = useState(true);
@@ -36,23 +38,31 @@ const PointCreator = () => {
     try {
       formRef.current.setErrors({});
 
-      pointValidator.isString({ name: "pointName", value: pointName, msg: "Campo requerido"  });
-      pointValidator.isString({ name: "city",  value: pointCity, msg: "Campo requerido"  });
-      pointValidator.isString({ name: "state", value: pointState, msg: "Campo requerido"});
+      pointValidator.isString({ name: "pointName", value: pointName, msg: "Campo requerido" });
+      pointValidator.isString({ name: "city", value: pointCity, msg: "Campo requerido" });
+      pointValidator.isString({ name: "state", value: pointState, msg: "Campo requerido" });
 
       await pointValidator.isValid();
 
       Alert.alert("Ponto criado com sucesso! (API não integrada)");
     } catch (err) {
-      if(err instanceof Yup.ValidationError) {
+      if (err instanceof Yup.ValidationError) {
         console.log(`Ǹão passou ${err}`);
       } else {
         Alert.alert("Erro!", `Ocorreu um erro ao criar o ponto\n${err}`);
         console.log(err);
       }
     }
-
   };
+
+  function handleRegisterButton() {
+    formRef.current.submitForm();
+    if (freePlanToggleCheckBox) {
+      navigation.navigate("PointsManagerStack");
+    } else {
+      navigation.navigate("PlansStack");
+    }
+  }
 
   return (
     <S.Container>
@@ -99,7 +109,7 @@ const PointCreator = () => {
           </S.CheckBoxInputsContainer>
         </S.InputsContainer>
         <S.MainButtonsContainer>
-          <S.RegisterButton onPress={() => formRef.current.submitForm()}>
+          <S.RegisterButton onPress={handleRegisterButton}>
             <S.RegisterButtonText>Cadastrar</S.RegisterButtonText>
           </S.RegisterButton>
         </S.MainButtonsContainer>
