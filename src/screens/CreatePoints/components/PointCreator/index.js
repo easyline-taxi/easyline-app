@@ -5,6 +5,7 @@ import * as Yup from "yup";
 
 import { Form } from "@unform/mobile";
 import { CheckBox } from "react-native-elements";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Input from "../Input";
 import { Validator } from "../../../../validators";
@@ -72,48 +73,50 @@ const PointCreator = () => {
           <S.SubTitle>Crie um ponto para administrar</S.SubTitle>
         </S.TitleContainer>
       </S.Header>
-      <S.Main>
-        <S.InputsContainer>
-          <S.TextInputsContainer>
-            <Form ref={formRef} onSubmit={handleSubmit}>
-              <Input label="Nome do ponto" name="pointName" type="text" />
-              <Input label="Cidade" name="pointCity" type="text" />
-              <Input label="Estado" name="pointState" type="text" />
-            </Form>
-          </S.TextInputsContainer>
-          <S.CheckBoxInputsContainer>
-            <S.CheckBoxContainer onPress={() => handleToggleCheckBox("freePlan")}>
-              <CheckBox
-                size={16}
-                containerStyle={{ width: 0, paddingTop: 0, paddingBottom: 0, marginRight: 2 }}
-                center
-                checkedIcon="dot-circle-o"
-                uncheckedIcon="circle-o"
-                checked={freePlanToggleCheckBox}
-                onPress={() => handleToggleCheckBox("freePlan")}
-              />
-              <S.CheckBoxTitle>Plano Free</S.CheckBoxTitle>
-            </S.CheckBoxContainer>
-            <S.CheckBoxContainer onPress={() => handleToggleCheckBox("subscribePlan")}>
-              <CheckBox
-                size={16}
-                containerStyle={{ width: 0, paddingTop: 0, paddingBottom: 0, marginRight: 2 }}
-                center
-                checkedIcon="dot-circle-o"
-                uncheckedIcon="circle-o"
-                checked={subscribePlanToggleCheckBox}
-                onPress={() => handleToggleCheckBox("subscribePlan")}
-              />
-              <S.CheckBoxTitle>Assinar um plano</S.CheckBoxTitle>
-            </S.CheckBoxContainer>
-          </S.CheckBoxInputsContainer>
-        </S.InputsContainer>
-        <S.MainButtonsContainer>
-          <S.RegisterButton onPress={handleRegisterButton}>
-            <S.RegisterButtonText>Cadastrar</S.RegisterButtonText>
-          </S.RegisterButton>
-        </S.MainButtonsContainer>
-      </S.Main>
+      <KeyboardAwareScrollView>
+        <S.Main>
+          <S.InputsContainer>
+            <S.TextInputsContainer>
+              <Form ref={formRef} onSubmit={handleSubmit}>
+                <Input label="Nome do ponto" name="pointName" type="text" />
+                <Input label="Cidade" name="pointCity" type="text" />
+                <Input label="Estado" name="pointState" type="text" />
+              </Form>
+            </S.TextInputsContainer>
+            <S.CheckBoxInputsContainer>
+              <S.CheckBoxContainer onPress={() => handleToggleCheckBox("freePlan")}>
+                <CheckBox
+                  size={16}
+                  containerStyle={{ width: 0, paddingTop: 0, paddingBottom: 0, marginRight: 2 }}
+                  center
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle-o"
+                  checked={freePlanToggleCheckBox}
+                  onPress={() => handleToggleCheckBox("freePlan")}
+                />
+                <S.CheckBoxTitle>Plano Free</S.CheckBoxTitle>
+              </S.CheckBoxContainer>
+              <S.CheckBoxContainer onPress={() => handleToggleCheckBox("subscribePlan")}>
+                <CheckBox
+                  size={16}
+                  containerStyle={{ width: 0, paddingTop: 0, paddingBottom: 0, marginRight: 2 }}
+                  center
+                  checkedIcon="dot-circle-o"
+                  uncheckedIcon="circle-o"
+                  checked={subscribePlanToggleCheckBox}
+                  onPress={() => handleToggleCheckBox("subscribePlan")}
+                />
+                <S.CheckBoxTitle>Assinar um plano</S.CheckBoxTitle>
+              </S.CheckBoxContainer>
+            </S.CheckBoxInputsContainer>
+          </S.InputsContainer>
+          <S.MainButtonsContainer>
+            <S.RegisterButton onPress={handleRegisterButton}>
+              <S.RegisterButtonText>Cadastrar</S.RegisterButtonText>
+            </S.RegisterButton>
+          </S.MainButtonsContainer>
+        </S.Main>
+      </KeyboardAwareScrollView>
     </S.Container>
   );
 };
