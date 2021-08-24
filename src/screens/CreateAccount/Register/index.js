@@ -21,7 +21,7 @@ export default function Register(props) {
   const { signUp } = useAuth();
 
   async function handleSubmit(data) {
-    const { name, cpf, email, password, nameofpoint, city, country, vtr } = data;
+    const { name, cpf, email, password, city } = data;
     let validationErrors = {};
     const registerValidator = new Validator();
 
@@ -31,28 +31,20 @@ export default function Register(props) {
       registerValidator.isString({ name: "name" ,value: name, msg: "Campo requerido" });
       registerValidator.isEmail({ name: "email", value: email, msg: "Campo requerido" });
       registerValidator.isString({ name: "password", value: password, min: 6, msg: "Campo requerido" });
-      registerValidator.isString({ name: "vtr", value: vtr, msg: "Campo requerido" });
-
-      if (props.type == "admin") {
-        registerValidator.isString({ name: "nameofpoint", value: nameofpoint, min: 3, msg: "Campo requerido" });
-      }
 
       await registerValidator.isValid();
       /* Validation pass */
 
-      const deviceId = Application.androidId;
+      const deviceid = Application.androidId;
 
       const body = {
         cpf,
         email,
-        deviceId,
+        deviceid,
         name,
         password,
-        nameofpoint,
-        vtr,
+        confirm_password: password,
         city,
-        country,
-        admin: props.type == "admin" ? true : false,
       };
 
       await handleSignUp(body);
@@ -89,10 +81,6 @@ export default function Register(props) {
 
               <Input label="E-mail" name="email" type="email" />
               <Input label="Senha" name="password" type="password" secureTextEntry={true} />
-              <Input label="VTR" keyboardType="numeric" maxLength={3} name="vtr" type="text" />
-              {props.type === "admin" && (
-                <>
-                  <Input label="Nome do ponto" name="nameofpoint" />
                   <S.Space />
                   <S.ButtonsEndPage>
                     <S.InputCoutry
@@ -104,8 +92,6 @@ export default function Register(props) {
                     <S.SpaceButtons />
                     <S.InputCity placeholder="Cidade" name="city" />
                   </S.ButtonsEndPage>
-                </>
-              )}
 
               <S.ButtonEnter>
                 <S.TextButton onPress={() => formRef.current.submitForm()}>Cadastrar</S.TextButton>
