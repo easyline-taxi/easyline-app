@@ -21,7 +21,6 @@ const api = async (method, path, data, token) => {
       });
   }
 
-  console.log(await response.json());
   if (!response.ok) {
     throw Error((await response.json()).message);
     // return
