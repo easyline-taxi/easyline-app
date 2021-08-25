@@ -24,6 +24,7 @@ export class Validator {
       const email = {
         [validatingData.name]: Yup.string()
           .email()
+          .typeError("E-mail deve ser válido.")
           .required(msg || "Campo requerido."),
       };
       this.handleYupSchemaData(email, validatingData);
