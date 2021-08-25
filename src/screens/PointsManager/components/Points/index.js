@@ -1,10 +1,13 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import * as S from "./styles";
 
 import PointCard from "../PointCard";
 
 const Points = () => {
+  const navigation = useNavigation();
+
   const user = {
     data: {
       image: "https://thispersondoesnotexist.com/image",
@@ -47,6 +50,10 @@ const Points = () => {
       ],
     },
   };
+
+  function handleCreatePointButton() {
+    navigation.navigate("CreatePointsStack");
+  }
 
   return (
     <S.Container>
@@ -101,7 +108,7 @@ const Points = () => {
               <S.SimpleButton>
                 <S.SimpleButtonText>Cadastrar em um ponto</S.SimpleButtonText>
               </S.SimpleButton>
-              <S.SimpleButton>
+              <S.SimpleButton onPress={handleCreatePointButton}>
                 <S.SimpleButtonText>Criar um ponto</S.SimpleButtonText>
               </S.SimpleButton>
             </S.SimpleButtonContainer>

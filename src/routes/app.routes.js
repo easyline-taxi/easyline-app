@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import PointsManagerStack from "./pointsmanager.routes";
 import RegisterInPointStack from "./registerinpoint.routes";
+import CreatePointsStack from "./createpoints.routes";
 import TabStack from "./tab.routes";
 import AdminStack from "./admin.routes";
 import Notification from "./notifications.routes";
@@ -27,6 +28,7 @@ function AppRoutes() {
       <AppStack.Screen name="SplashStack" component={Splash} />
       <AppStack.Screen name="PointsManagerStack" component={PointsManagerStack} />
       <AppStack.Screen name="RegisterInPointStack" component={RegisterInPointStack} />
+      <AppStack.Screen name="CreatePointsStack" component={CreatePointsStack} />
       <AppStack.Screen name="TabStack" component={TabStack} />
       <AppStack.Screen name="AdminStack" component={AdminStack} />
       <AppStack.Screen name="NotificationStack" component={Notification} />
