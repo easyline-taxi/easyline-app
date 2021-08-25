@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ContainerPage from "../../components/ContainerPage";
 import styles from "./styles";
@@ -6,30 +6,28 @@ import { useNavigation } from "@react-navigation/native";
 import { SvgUri } from "react-native-svg";
 import { View, Image, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import { useHandleLocationPermission, useLocation } from "../../contexts/location";
 export default function Welcome(props) {
-  
- 
+  const { positionMonitoring } = useLocation();
+  useEffect(() => {
+    handleLocation();
+  }, []);
+
+  async function handleLocation() {
+    await useHandleLocationPermission();
+    positionMonitoring();
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.dobg}>
-        <Image
-          source={require("../../../assets/img/background.png")}
-          style={styles.bg}
-        />
+        <Image source={require("../../../assets/img/background.png")} style={styles.bg} />
       </View>
       <View style={styles.subcontainer}>
-        <Image
-          source={require("../../../assets/img/logo.png")}
-          style={styles.image}
-        />
+        <Image source={require("../../../assets/img/logo.png")} style={styles.image} />
       </View>
       <View style={styles.docloud}>
-        <Image
-          source={require("../../../assets/img/sol-nuvens.png")}
-          style={styles.cloud}
-        />
+        <Image source={require("../../../assets/img/sol-nuvens.png")} style={styles.cloud} />
       </View>
 
       {/* <View style={styles.docar} >
@@ -39,10 +37,7 @@ export default function Welcome(props) {
         onPress={() => props.navigation.navigate("TabStack")} // tira isso aqui DEPOIS
       >
         <View style={styles.docar}>
-          <Image
-            source={require("../../../assets/img/carro-pin.png")}
-            style={styles.car}
-          />
+          <Image source={require("../../../assets/img/carro-pin.png")} style={styles.car} />
         </View>
       </TouchableOpacity>
 
@@ -69,10 +64,7 @@ export default function Welcome(props) {
                     </TouchableOpacity>
                 </View> */}
         <View style={styles.butttons3}>
-          <TouchableOpacity
-            style={styles.bottom2}
-            onPress={() => props.navigation.navigate("LoginStack")}
-          >
+          <TouchableOpacity style={styles.bottom2} onPress={() => props.navigation.navigate("LoginStack")}>
             <Text style={styles.textbottom2}>Fazer login</Text>
           </TouchableOpacity>
         </View>
