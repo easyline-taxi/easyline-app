@@ -22,7 +22,6 @@ export const Main = styled.View`
 `;
 
 export const QRCodeContainer = styled.View`
-  flex-direction: row;
   align-items: center;
   justify-content: center;
 `;

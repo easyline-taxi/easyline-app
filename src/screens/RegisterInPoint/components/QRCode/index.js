@@ -15,3 +15,5 @@ const QRCode = () => {
     </S.Container>
   );
 };
+
+export default QRCode;
