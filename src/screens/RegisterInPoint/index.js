@@ -7,7 +7,7 @@ import QRCode from "./components/QRCode";
 export default function RegisterInPoint() {
   return (
     <ContainerPage>
-      <Header />
+      <Header title="Easy Line" subTitle="Sistema de gerenciamento" isBack />
       <QRCode />
     </ContainerPage>
   );
