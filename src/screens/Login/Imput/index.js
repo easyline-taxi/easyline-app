@@ -18,7 +18,7 @@ export default function login(props) {
   const { signIn } = useAuth();
 
   const handleSubmit = async (data) => {
-    const { email, password } = data;
+    const { username, password } = data;
     let validationErrors = {};
 
     try {
@@ -26,7 +26,7 @@ export default function login(props) {
 
       let schema;
       schema = Yup.object().shape({
-        email: Yup.string().email().required("Campo requerido"),
+        username: Yup.string().email().required("Campo requerido"),
         password: Yup.string().min(6).required("Campo requerido"),
       });
 
@@ -36,9 +36,9 @@ export default function login(props) {
       //Validation pass
 
       const body = {
-        email,
+        username,
         password,
-        deviceId: Application.androidId
+        deviceid: Application.androidId
       };
 
       await handleSignIn(body);
@@ -71,7 +71,7 @@ export default function login(props) {
           </S.ContainerTitle>
           <S.ContainerIntroInput>
             <Form ref={formRef} onSubmit={handleSubmit}>
-              <Input label="E-mail" name="email" type="email" />
+              <Input label="E-mail" name="username" type="email" />
               <S.Space />
               <Input
                 label="Senha"
