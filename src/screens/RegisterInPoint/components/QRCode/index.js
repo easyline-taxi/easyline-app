@@ -8,8 +8,12 @@ const QRCode = () => {
       <S.Header></S.Header>
       <S.Main>
         <S.QRCodeContainer>
-          <S.QRCodeTitle>Mostre seu QR Code para o admin do ponto para ser cadastrado</S.QRCodeTitle>
-          <S.QRCode></S.QRCode>
+          <S.QRCodeTitleContainer>
+            <S.QRCodeTitle>Mostre seu QR Code para o admin do ponto para ser cadastrado</S.QRCodeTitle>
+          </S.QRCodeTitleContainer>
+          <S.QRCodeBarContainer>
+            <S.QRCodeBar></S.QRCodeBar>
+          </S.QRCodeBarContainer>
         </S.QRCodeContainer>
       </S.Main>
     </S.Container>
