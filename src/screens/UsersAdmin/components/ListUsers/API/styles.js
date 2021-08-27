@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import normalize from "react-native-normalize";
 
 
 export const BackPage = styled.View`
@@ -23,6 +24,11 @@ export const Container = styled.View`
     flex: 1;
 `;
 
+export const ListTitle = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`;
 
 export const Texto = styled.Text`
     font-size: 20px;
@@ -32,4 +38,19 @@ export const Texto = styled.Text`
     color: #5B5B5BDE;
 `;
 
+export const RegisterDriverButton = styled.TouchableOpacity`
+    border-radius: 9px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4%;
+    height: 29px;
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: #7542AE;
+`;
 
+export const RegisterDriverButtonText = styled.Text`
+    font-size: ${normalize(10)}px;
+    text-transform: uppercase;
+    color: #FFFFFFDE;
+`;

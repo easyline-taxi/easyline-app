@@ -131,7 +131,12 @@ export default class ListUsers extends Component {
       <S.BackPage>
         <S.TopContainer>
           <S.Container>
-            <S.Texto>LISTA DE USUÁRIOS</S.Texto>
+            <S.ListTitle>
+              <S.Texto>LISTA DE USUÁRIOS</S.Texto>
+              <S.RegisterDriverButton>
+                <S.RegisterDriverButtonText>Cadastrar Motorista</S.RegisterDriverButtonText>
+              </S.RegisterDriverButton>
+            </S.ListTitle>
             <ScrollView>
               {this.state.lists.map(list => <List key={list.id} list={list} />)}
             </ScrollView>
