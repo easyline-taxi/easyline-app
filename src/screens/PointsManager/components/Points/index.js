@@ -55,6 +55,10 @@ const Points = () => {
     navigation.navigate("CreatePointsStack");
   }
 
+  function handleRegisterInPointButton() {
+    navigation.navigate("RegisterInPointStack");
+  }
+
   return (
     <S.Container>
       <S.Header>
@@ -105,7 +109,7 @@ const Points = () => {
           </S.PointsContainer>
           <S.BottomContainer>
             <S.SimpleButtonContainer>
-              <S.SimpleButton>
+              <S.SimpleButton onPress={handleRegisterInPointButton}>
                 <S.SimpleButtonText>Cadastrar em um ponto</S.SimpleButtonText>
               </S.SimpleButton>
               <S.SimpleButton onPress={handleCreatePointButton}>
