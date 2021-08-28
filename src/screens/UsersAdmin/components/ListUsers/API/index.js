@@ -1,5 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 import List from '../../../components/ListUsers/List';
 
 import * as S from './styles'
@@ -126,12 +127,22 @@ export default class ListUsers extends Component {
   };
 
   render() {
+    const navigation = useNavigation();
 
+    function handleRegisterDriverButton() {
+      navigation.navigate("RegisterInPointAdminStack");
+    }
+    
     return (
       <S.BackPage>
         <S.TopContainer>
           <S.Container>
-            <S.Texto>LISTA DE USUÁRIOS</S.Texto>
+            <S.ListTitle>
+              <S.Texto>LISTA DE USUÁRIOS</S.Texto>
+              <S.RegisterDriverButton onPress={handleRegisterDriverButton}>
+                <S.RegisterDriverButtonText>Cadastrar Motorista</S.RegisterDriverButtonText>
+              </S.RegisterDriverButton>
+            </S.ListTitle>
             <ScrollView>
               {this.state.lists.map(list => <List key={list.id} list={list} />)}
             </ScrollView>
