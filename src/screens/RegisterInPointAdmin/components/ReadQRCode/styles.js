@@ -43,7 +43,11 @@ export const SubTitle = styled.Text`
 export const ExampleQRCodeContainer = styled.View`
   height: 200px;
   width: 200px;
-  border-width: 2px;
+`;
+
+export const ExampleQRCodeImage = styled.Image`
+  width: 100%;
+  height: 100%;
 `;
 
 export const ReadQRCodeButtonContainer = styled.View`
@@ -68,4 +72,64 @@ export const ReadQRCodeButton = styled.TouchableOpacity`
 export const ReadQRCodeButtonText = styled.Text`
   font-size: ${normalize(18)}px;
   color: #7937cfde;
+`;
+
+export const ModalScannerContainer = styled.View`
+  border-width: 5px;
+`;
+
+export const ScanTitle = styled.Text`
+  font-size: ${normalize(30)}px;
+  color: #ffffff;
+  position: absolute;
+  top: 0;
+  margin-top: 20%;
+`;
+
+export const ScanSquare = styled.View`
+  width: 200px;
+  height: 200px;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
+export const ScanSquareTopLeft = styled.View`
+  border-left-width: 6px;
+  border-top-width: 6px;
+  border-top-left-radius: 25px;
+  border-color: #ffffff;
+  width: 45px;
+  height: 45px;
+`;
+
+export const ScanSquareTopRight = styled.View`
+  border-right-width: 6px;
+  border-top-width: 6px;
+  border-top-right-radius: 25px;
+  border-color: #ffffff;
+  width: 45px;
+  height: 45px;
+`;
+
+export const ScanSquareBottomLeft = styled.View`
+  align-self: flex-end;
+  position: absolute;
+  border-left-width: 6px;
+  border-bottom-width: 6px;
+  border-bottom-left-radius: 25px;
+  border-color: #ffffff;
+  width: 45px;
+  height: 45px;
+`;
+
+export const ScanSquareBottomRight = styled.View`
+  align-self: flex-end;
+  position: absolute;
+  right: 0;
+  border-right-width: 6px;
+  border-bottom-width: 6px;
+  border-bottom-right-radius: 25px;
+  border-color: #ffffff;
+  width: 45px;
+  height: 45px;
 `;
