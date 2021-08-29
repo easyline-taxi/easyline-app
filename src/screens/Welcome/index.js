@@ -6,17 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SvgUri } from "react-native-svg";
 import { View, Image, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useHandleLocationPermission, useLocation } from "../../contexts/location";
 export default function Welcome(props) {
-  const { positionMonitoring } = useLocation();
-  useEffect(() => {
-    handleLocation();
-  }, []);
-
-  async function handleLocation() {
-    await useHandleLocationPermission();
-    positionMonitoring();
-  }
 
   return (
     <View style={styles.container}>
