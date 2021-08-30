@@ -11,6 +11,10 @@ function Routes() {
   const { signed } = useAuth();
   const { location } = useLocation();
 
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
+
   return (
     <>
       {signed && location ? <AppRoutes /> : !signed && location ? <AuthRoutes /> : <LocationDisabledRoutes />}
