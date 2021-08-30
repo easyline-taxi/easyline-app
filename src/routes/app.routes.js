@@ -9,6 +9,7 @@ import AdminStack from "./admin.routes";
 import Notification from "./notifications.routes";
 import UsersAdmin from "./usersadmin.routes";
 import RegisterInPointAdminStack from "../screens/RegisterInPointAdmin";
+import UserHistoryRegisterInPointStack from "./userhistoryregisterinpoint.routes";
 import Financeiro from "./financeiro.routes";
 import Plans from "./plans.routes";
 import QRcode from "./qrcode.routes";
@@ -35,6 +36,7 @@ function AppRoutes() {
       <AppStack.Screen name="NotificationStack" component={Notification} />
       <AppStack.Screen name="UsersAdminStack" component={UsersAdmin} />
       <AppStack.Screen name="RegisterInPointAdminStack" component={RegisterInPointAdminStack} />
+      <AppStack.Screen name="UserHistoryRegisterInPointStack" component={UserHistoryRegisterInPointStack} />
       <AppStack.Screen name="FinanceiroStack" component={Financeiro} />
       <AppStack.Screen name="PlansStack" component={Plans} />
       <AppStack.Screen name="QRcodeStack" component={QRcode} />

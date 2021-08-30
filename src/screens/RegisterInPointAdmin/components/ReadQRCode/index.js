@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { Modalize } from "react-native-modalize";
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
@@ -10,6 +11,7 @@ import * as S from "./styles";
 const ReadQRCode = () => {
   const [scanned, setScanned] = useState(false);
   const [hasCameraPermission, setCameraPermission] = useState(false);
+  const navigation = useNavigation();
   const modalizeRef = useRef(null);
 
   const QRCodePNG = require("../../../../../assets/img/qr-code.png");
@@ -45,6 +47,7 @@ const ReadQRCode = () => {
   function handleBarCodeScanned({ type, data }) {
     setScanned(data);
     onClose();
+    navigation.navigate("UserHistoryRegisterInPointStack");
   }
 
   function handleReadQRCodeButtonPress() {
