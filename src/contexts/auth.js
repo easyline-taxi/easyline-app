@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState } from 'react'
 import * as SecureStore from 'expo-secure-store';
 
+import api from "../Services/api";
 import * as auth from '../Services/auth'
 
 const AuthContext = createContext({});
@@ -9,11 +10,17 @@ const AuthContext = createContext({});
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null); // There will be user object data.
 
-  async function signIn(userData) {
-    const response = await auth.signIn(userData);
+  async function signIn(userAuthData) {
+    await SecureStore.deleteItemAsync("token");
+    const { token } = await auth.signIn(userAuthData);
 
-    setUser(true);
-    await SecureStore.setItemAsync("token", response.token)
+    await SecureStore.setItemAsync("token", token)
+    await setUserData();
+  }
+
+  async function setUserData() {
+    const { user_data } = await api("GET", "/user/");
+    setUser(user_data);
   }
 
   async function signUp(userData) {
