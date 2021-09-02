@@ -1,20 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import normalize from "react-native-normalize";
 
 import * as S from "./styles";
 
 import PointCard from "../PointCard";
 import UserIcon from "../../../../../assets/img/user-icon.svg";
-import { SvgUri } from "react-native-svg";
 import { useAuth } from "../../../../contexts/auth";
 
 const Points = () => {
   const navigation = useNavigation();
   const auth = useAuth();
-
-  useEffect(() => {
-    console.log(auth.user);
-  }, []);
 
   const user = {
     data: {
@@ -73,14 +69,15 @@ const Points = () => {
         <S.HeaderBackground></S.HeaderBackground>
         <S.UserInfo>
           <S.UserDetailsContainer>
-            <UserIcon width={40} height={40} />
+            {auth.user.photo ? (
+              <S.AvatarImage source={{ uri: auth.user.photo }} />
+            ) : (
+              <S.UserIconContainer>
+                <UserIcon width={normalize(50)} height={normalize(50)} />
+              </S.UserIconContainer>
+            )}
             <S.UserDetailsMain>
               <S.Username>{auth.user.name}</S.Username>
-              <S.UserDetailsSub>
-                <S.UserRole>Motorista</S.UserRole>
-                <S.BulletSeparator />
-                <S.UserVtr>VTR {auth.user.vtr ? auth.user.vtr : "Não há"}</S.UserVtr>
-              </S.UserDetailsSub>
             </S.UserDetailsMain>
           </S.UserDetailsContainer>
         </S.UserInfo>
