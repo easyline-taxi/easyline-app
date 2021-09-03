@@ -7,6 +7,7 @@ import { Form } from "@unform/mobile";
 import { CheckBox } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import api from "../../../../Services/api";
 import Input from "../Input";
 import { Validator } from "../../../../validators";
 
@@ -32,20 +33,21 @@ const PointCreator = () => {
   }
 
   const handleSubmit = async (data) => {
-    const { pointName, pointCity, pointState } = data;
+    const { name, city, country } = data;
 
     const pointValidator = new Validator();
 
     try {
       formRef.current.setErrors({});
 
-      pointValidator.isString({ name: "pointName", value: pointName, msg: "Campo requerido" });
-      pointValidator.isString({ name: "city", value: pointCity, msg: "Campo requerido" });
-      pointValidator.isString({ name: "state", value: pointState, msg: "Campo requerido" });
+      pointValidator.isString({ name: "name", value: name, msg: "Campo requerido" });
+      pointValidator.isString({ name: "city", value: city, msg: "Campo requerido" });
+      pointValidator.isString({ name: "country", value: country, msg: "Campo requerido" });
 
       await pointValidator.isValid();
+      await handleCreatePoint(data);
 
-      Alert.alert("Ponto criado com sucesso! (API não integrada)");
+      Alert.alert("Ponto criado com sucesso!");
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         console.log(`Ǹão passou ${err}`);
@@ -55,6 +57,10 @@ const PointCreator = () => {
       }
     }
   };
+
+  async function handleCreatePoint(data) {
+    return await api("POST", "/point/register/", data);
+  }
 
   function handleRegisterButton() {
     formRef.current.submitForm();
@@ -78,9 +84,9 @@ const PointCreator = () => {
           <S.InputsContainer>
             <S.TextInputsContainer>
               <Form ref={formRef} onSubmit={handleSubmit}>
-                <Input label="Nome do ponto" name="pointName" type="text" />
-                <Input label="Cidade" name="pointCity" type="text" />
-                <Input label="Estado" name="pointState" type="text" />
+                <Input label="Nome do ponto" name="name" type="text" />
+                <Input label="Cidade" name="city" type="text" />
+                <Input label="Estado" name="country" type="text" />
               </Form>
             </S.TextInputsContainer>
             <S.CheckBoxInputsContainer>
