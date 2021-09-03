@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import normalize from "react-native-normalize";
 
@@ -6,54 +6,22 @@ import * as S from "./styles";
 
 import PointCard from "../PointCard";
 import UserIcon from "../../../../../assets/img/user-icon.svg";
+import api from "../../../../Services/api";
 import { useAuth } from "../../../../contexts/auth";
 
 const Points = () => {
   const navigation = useNavigation();
   const auth = useAuth();
+  const [pointsList, setPointsList] = useState([]);
 
-  const user = {
-    data: {
-      image: "https://thispersondoesnotexist.com/image",
-      vtr: "VTR 007",
-      role: "Motorista",
-      name: "Sergio Camargo",
-      driverPoints: [
-        {
-          pointName: "Ipanema Top Táxi",
-          joinedAt: "22 ago 21",
-          onlineUsersLength: 12,
-        },
-        {
-          pointName: "LC Táxi",
-          joinedAt: "22 ago 21",
-          onlineUsersLength: 12,
-        },
-        {
-          pointName: "Almirante Barroso",
-          joinedAt: "3 ago 21",
-          onlineUsersLength: 0,
-        },
-      ],
-      adminPoints: [
-        {
-          pointName: "Ipanema Five Stars At Night Bruh",
-          joinedAt: "7 ago 21",
-          onlineUsersLength: 5,
-        },
-        {
-          pointName: "Bahia Seguro",
-          joinedAt: "7 ago 21",
-          onlineUsersLength: 5,
-        },
-        {
-          pointName: "Ponto Nordestino",
-          joinedAt: "7 ago 21",
-          onlineUsersLength: 5,
-        },
-      ],
-    },
-  };
+  useEffect(() => {
+    fetchPoints();
+  }, []);
+
+  async function fetchPoints() {
+    const res = await api("GET", "/point/");
+    setPointsList(res.points);
+  }
 
   function handleCreatePointButton() {
     navigation.navigate("CreatePointsStack");
@@ -88,27 +56,33 @@ const Points = () => {
             <S.Points>
               <S.PointsTitle>Pontos que você é motorista</S.PointsTitle>
               <S.PointsCardsContainer>
-                {user.data.driverPoints.map((point, i) => (
-                  <PointCard
-                    key={i}
-                    cardPointTitle={point.pointName}
-                    CardPointJoinedDate={point.joinedAt}
-                    cardPointOnlineUsersLength={point.onlineUsersLength}
-                  />
-                ))}
+                {pointsList
+                  .filter((point) => point.function === "M")
+                  ?.map((point) => {
+                    return (
+                      <PointCard
+                        key={point.id}
+                        cardPointTitle={point.name}
+                        cardPointOnlineUsersLength={point.onlines}
+                      />
+                    );
+                  })}
               </S.PointsCardsContainer>
             </S.Points>
             <S.Points>
               <S.PointsTitle>Pontos que você administra</S.PointsTitle>
               <S.PointsCardsContainer>
-                {user.data.adminPoints.map((point, i) => (
-                  <PointCard
-                    key={i}
-                    cardPointTitle={point.pointName}
-                    CardPointJoinedDate={point.joinedAt}
-                    cardPointOnlineUsersLength={point.onlineUsersLength}
-                  />
-                ))}
+                {pointsList
+                  .filter((point) => point.function === "A")
+                  ?.map((point) => {
+                    return (
+                      <PointCard
+                        key={point.id}
+                        cardPointTitle={point.name}
+                        cardPointOnlineUsersLength={point.onlines}
+                      />
+                    );
+                  })}
               </S.PointsCardsContainer>
             </S.Points>
           </S.PointsContainer>
