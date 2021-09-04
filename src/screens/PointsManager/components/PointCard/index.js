@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import normalize from "react-native-normalize";
 
 import * as S from "./styles";
 
 const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLength }) => {
+  const navigation = useNavigation();
+
   const defaultCardPointTextFontSize = 29;
   const cardPointSignTextCharsLimit = 6;
 
@@ -28,6 +31,10 @@ const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLe
     }
   }, []);
 
+  function handlePointJoinButton() {
+    navigation.navigate("TabStack");
+  }
+
   return (
     <S.PointCard>
       <S.CardPointDetailsContainer>
@@ -48,7 +55,7 @@ const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLe
           )}
         </S.CardPointMainDetails>
       </S.CardPointDetailsContainer>
-      <S.CardPointJoinButton>
+      <S.CardPointJoinButton onPress={handlePointJoinButton}>
         <S.CardPointJoinButtonText>Entrar</S.CardPointJoinButtonText>
       </S.CardPointJoinButton>
     </S.PointCard>
