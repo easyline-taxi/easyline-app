@@ -39,7 +39,7 @@ const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLe
         <S.CardPointMainDetails>
           <S.CardPointTitleContainer>
             <S.CardPointTitle>{cardPointTitle}</S.CardPointTitle>
-            <S.CardPointJoinedDate>{CardPointJoinedDate}</S.CardPointJoinedDate>
+            {CardPointJoinedDate ?? <S.CardPointJoinedDate>{CardPointJoinedDate}</S.CardPointJoinedDate>}
           </S.CardPointTitleContainer>
           {cardPointOnlineUsersLength.length > 1 ? (
             <S.CardPointOnlineAmountGreen>{cardPointOnlineUsersLength}</S.CardPointOnlineAmountGreen>

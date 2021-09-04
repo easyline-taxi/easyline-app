@@ -58,6 +58,22 @@ export const UserDetailsContainer = styled.View`
   flex-direction: row;
 `;
 
+export const UserIconContainer = styled.View`
+  height: ${normalize(79)}px;
+  width: ${normalize(79)}px;
+  background-color: #C9CCD5;
+  background-color: #93B5C6;
+  border-top-right-radius: ${normalize(50)}px;
+  border-top-left-radius: ${normalize(50)}px;
+  border-bottom-right-radius: ${normalize(50)}px;
+  border-bottom-left-radius: ${normalize(50)}px;
+  border-width: 2px;
+  border-color: #90ee90;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+`;
+
 export const AvatarImage = styled.Image`
   height: ${normalize(50)}px;
   width: ${normalize(50)}px;
