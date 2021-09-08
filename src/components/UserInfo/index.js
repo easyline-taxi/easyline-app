@@ -3,10 +3,31 @@ import React from "react";
 import UserInfoType1 from "./UserInfoType1";
 import UserInfoType2 from "./UserInfoType2";
 
-export default function UserInfo({ type, positionType, borderColorHex, enableTogglePhoto }) {
+export default function UserInfo({
+  type,
+  positionType,
+  borderColorHex,
+  enableTogglePhoto,
+  titleColor,
+  subTitleColor,
+  subTitleText,
+  subTitleUppercase,
+  beforeTitleText,
+  afterTitleText
+}) {
   return type === 1 ? (
     <UserInfoType1 />
   ) : (
-    <UserInfoType2 positionType={positionType} borderColorHex={borderColorHex} enableTogglePhoto={enableTogglePhoto} />
+    <UserInfoType2
+      positionType={positionType}
+      borderColorHex={borderColorHex}
+      enableTogglePhoto={enableTogglePhoto}
+      titleColor={titleColor}
+      subTitleColor={subTitleColor}
+      subTitleText={subTitleText}
+      subTitleUppercase={subTitleUppercase}
+      beforeTitleText={beforeTitleText}
+      afterTitleText={afterTitleText}
+    />
   );
 }

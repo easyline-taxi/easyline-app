@@ -18,7 +18,7 @@ const QRCode = () => {
   return (
     <S.Container>
       <S.Header>
-        <UserInfo type={2} />
+        <UserInfo type={2} titleColor="#FFFFFFDE" subTitleColor="#FFFFFF62" />
       </S.Header>
       <S.Main>
         <S.QRCodeContainer>
