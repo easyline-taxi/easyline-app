@@ -13,7 +13,7 @@ export default function Home() {
       <Header />
       <S.Container>
         <KeyboardAwareScrollView>
-          <UserInfo type={2} positionType="column" borderColorHex="#7F0DFF" />
+          <UserInfo type={2} positionType="column" borderColorHex="#7F0DFF" enableTogglePhoto />
           <Input />
         </KeyboardAwareScrollView>
       </S.Container>

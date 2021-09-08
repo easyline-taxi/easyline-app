@@ -47,8 +47,8 @@ export const AvatarImageContainer = styled.View`
 `;
 
 export const AvatarImage = styled.Image`
-  height: ${normalize(50)}px;
-  width: ${normalize(50)}px;
+  height: ${normalize(79)}px;
+  width: ${normalize(79)}px;
   border-top-right-radius: ${normalize(50)}px;
   border-top-left-radius: ${normalize(50)}px;
   border-bottom-right-radius: ${normalize(50)}px;
@@ -58,6 +58,17 @@ export const AvatarImage = styled.Image`
 export const UserDetailsMain = styled.View`
   flex-direction: column;
   padding-left: ${normalize(5)}px;
+`;
+
+export const ImageDetailsContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const CameraIconContainer = styled.TouchableOpacity`
+  position: absolute;
+  left: ${normalize(100)}px;
 `;
 
 export const Username = styled.Text`
