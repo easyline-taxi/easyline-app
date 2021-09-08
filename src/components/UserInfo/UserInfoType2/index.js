@@ -6,24 +6,28 @@ import { useAuth } from "../../../contexts/auth";
 
 import * as S from "./styles";
 
-const UserInfoType2 = () => {
+const UserInfoType2 = ({ positionType, borderColorHex }) => {
   const { user } = useAuth();
 
   return (
     <S.UserInfo>
-      <S.AvatarImageContainer>
+      <S.UserDetailsContainer style={positionType === "column" && { flexDirection: "column" }}>
         {user.photo ? (
-          <S.AvatarImage source={{ uri: user.photo }} />
+          <S.AvatarImageContainer>
+            <S.AvatarImage source={{ uri: user.photo }} />
+          </S.AvatarImageContainer>
         ) : (
-          <S.UserIconContainer>
-            <UserIcon width={normalize(50)} height={normalize(50)} />
-          </S.UserIconContainer>
+          <S.AvatarImageContainer style={borderColorHex && { borderColor: borderColorHex }}>
+            <S.UserIconContainer>
+              <UserIcon width={normalize(50)} height={normalize(50)} />
+            </S.UserIconContainer>
+          </S.AvatarImageContainer>
         )}
-      </S.AvatarImageContainer>
-      <S.UserDetails>
-        <S.Username>{user.name}</S.Username>
-        <S.SubTitle>Bom trabalho em seu novo ponto!</S.SubTitle>
-      </S.UserDetails>
+        <S.UserDetailsMain style={positionType === "column" && { alignItems: "center", paddingLeft: 0 }}>
+          <S.Username>{user.name}</S.Username>
+          <S.SubTitle>Motorista</S.SubTitle>
+        </S.UserDetailsMain>
+      </S.UserDetailsContainer>
     </S.UserInfo>
   );
 };
