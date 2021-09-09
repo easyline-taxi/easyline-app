@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import Slider from "react-native-slider";
 import { StyleSheet } from "react-native";
 
-export default class SliderPag extends Component {
+export default class SliderPage extends Component {
   state = {
     value: 20,
   };

@@ -18,9 +18,6 @@ export default function AdminOptions() {
         JosefinSans_300Light,
       })
     
-      if (!fontsLoaded) {
-        return <AppLoading />;
-      }
 
     return ( 
 
