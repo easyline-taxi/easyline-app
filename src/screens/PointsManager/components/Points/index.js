@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import normalize from "react-native-normalize";
 
 import * as S from "./styles";
 
 import PointCard from "../PointCard";
-import UserIcon from "../../../../../assets/img/user-icon.svg";
+import UserInfo from "../../../../components/UserInfo";
+
 import api from "../../../../Services/api";
 import { useAuth } from "../../../../contexts/auth";
 
@@ -35,20 +35,7 @@ const Points = () => {
     <S.Container>
       <S.Header>
         <S.HeaderBackground></S.HeaderBackground>
-        <S.UserInfo>
-          <S.UserDetailsContainer>
-            {auth.user.photo ? (
-              <S.AvatarImage source={{ uri: auth.user.photo }} />
-            ) : (
-              <S.UserIconContainer>
-                <UserIcon width={normalize(50)} height={normalize(50)} />
-              </S.UserIconContainer>
-            )}
-            <S.UserDetailsMain>
-              <S.Username>{auth.user.name}</S.Username>
-            </S.UserDetailsMain>
-          </S.UserDetailsContainer>
-        </S.UserInfo>
+        <UserInfo type={1} />
       </S.Header>
       <S.Main>
         <S.MainScrollView>
