@@ -9,7 +9,17 @@ import { useAuth } from "../../../contexts/auth";
 
 import * as S from "./styles";
 
-const UserInfoType2 = ({ positionType, borderColorHex, enableTogglePhoto, titleColor, subTitleColor, subTitleText, subTitleUppercase, beforeTitleText, afterTitleText }) => {
+const UserInfoType2 = ({
+  positionType,
+  borderColorHex,
+  enableTogglePhoto,
+  titleColor,
+  subTitleColor,
+  subTitleText,
+  subTitleUppercase,
+  beforeTitleText,
+  afterTitleText,
+}) => {
   const [image, setImage] = useState();
   const { user } = useAuth();
 
@@ -40,6 +50,8 @@ const UserInfoType2 = ({ positionType, borderColorHex, enableTogglePhoto, titleC
     }
   };
 
+  console.log(subTitleUppercase);
+
   return (
     <S.UserInfo>
       <S.UserDetailsContainer style={positionType === "column" && { flexDirection: "column" }}>
@@ -62,8 +74,19 @@ const UserInfoType2 = ({ positionType, borderColorHex, enableTogglePhoto, titleC
           )}
         </S.ImageDetailsContainer>
         <S.UserDetailsMain style={positionType === "column" && { alignItems: "center", paddingLeft: 0 }}>
-          <S.Username style={titleColor && { color: titleColor }}>{beforeTitleText && beforeTitleText}{user.name}{afterTitleText && afterTitleText}</S.Username>
-          <S.SubTitle style={subTitleColor && { color: subTitleColor, textTransform: subTitleUppercase ? "uppercase" : "none" }}>{subTitleText || "Motorista"}</S.SubTitle>
+          <S.Username style={titleColor && { color: titleColor }}>
+            {beforeTitleText && beforeTitleText}
+            {user.name}
+            {afterTitleText && afterTitleText}
+          </S.Username>
+          <S.SubTitle
+            style={{
+              ...(subTitleColor && { color: subTitleColor }),
+              ...(subTitleUppercase && { textTransform: "uppercase" }),
+            }}
+          >
+            {subTitleText || "Motorista"}
+          </S.SubTitle>
         </S.UserDetailsMain>
       </S.UserDetailsContainer>
     </S.UserInfo>

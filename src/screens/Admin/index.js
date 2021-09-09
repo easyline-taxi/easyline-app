@@ -18,7 +18,7 @@ export default function Admin() {
       <Header title="Ipanema Top Taxi" subTitle="Administração" isBack />
       <S.Container>
       <ScrollView>
-      <UserInfo type={2} />
+      <UserInfo type={2} borderColorHex="#7F0DFF" subTitleText="Administrador" subTitleUppercase />
       <LastLine />
       <AdminOptions />
       <TextSlider />
