@@ -7,6 +7,8 @@ import { Entypo } from "@expo/vector-icons";
 import UserIcon from "../../../../assets/img/user-icon.svg";
 import { useAuth } from "../../../contexts/auth";
 
+import api from "../../../Services/api";
+
 import * as S from "./styles";
 
 const UserInfoType2 = ({
@@ -21,7 +23,7 @@ const UserInfoType2 = ({
   afterTitleText,
 }) => {
   const [image, setImage] = useState();
-  const { user } = useAuth();
+  const { user, updateUserData } = useAuth();
 
   async function requestImagePermission() {
     if (Platform.OS !== "web") {
@@ -36,22 +38,42 @@ const UserInfoType2 = ({
   }
 
   const pickImage = async () => {
-    await requestImagePermission();
+    try {
+      await requestImagePermission();
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: true,
-    });
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
 
-    if (!result.cancelled) {
-      setImage(result.uri);
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+
+      const uriParts = result.uri.split(".");
+      const fileType = uriParts[uriParts.length - 1];
+
+      const formData = new FormData();
+      formData.append("photo", {
+        uri: result.uri,
+        name: `photo.${fileType}`,
+        type: `image/${fileType}`,
+      });
+
+      let res = await api("PUT", "/user/", formData);
+      // console.log(result.base64)
+      await updateUserData();
+      console.log(user);
+      console.log(res)
+
+      Alert.alert("Sucesso", "Foto de perfil atualizada com sucesso!");
+    } catch (err) {
+      console.log(err);
+      Alert.alert("Erro", "Ocorreu um erro ao tentar atualizar a sua foto de perfil.");
     }
   };
-
-  console.log(subTitleUppercase);
 
   return (
     <S.UserInfo>
