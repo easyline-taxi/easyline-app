@@ -3,6 +3,8 @@ import { default as QRCodeSVG } from "react-native-qrcode-svg";
 
 import * as S from "./styles";
 
+import UserInfo from "../../../../components/UserInfo";
+
 const QRCode = () => {
   const easyLineLogo = require("../../../../../assets/img/logo-colored.png");
 
@@ -16,15 +18,7 @@ const QRCode = () => {
   return (
     <S.Container>
       <S.Header>
-        <S.UserInfo>
-          <S.AvatarImageContainer>
-            <S.AvatarImage source={{ uri: user.data.image }} />
-          </S.AvatarImageContainer>
-          <S.UserDetails>
-            <S.Username>{user.data.username}</S.Username>
-            <S.SubTitle>Bom trabalho em seu novo ponto!</S.SubTitle>
-          </S.UserDetails>
-        </S.UserInfo>
+        <UserInfo type={2} titleColor="#FFFFFFDE" subTitleColor="#FFFFFF62" />
       </S.Header>
       <S.Main>
         <S.QRCodeContainer>

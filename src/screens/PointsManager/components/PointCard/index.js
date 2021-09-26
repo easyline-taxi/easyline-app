@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import normalize from "react-native-normalize";
+import { useNavigation } from "@react-navigation/native";
 
 import * as S from "./styles";
 
@@ -31,7 +32,7 @@ const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLe
     }
   }, []);
 
-  function handlePointJoinButton() {
+  function handleCardPointJoinButton() {
     navigation.navigate("TabStack");
   }
 
@@ -55,7 +56,7 @@ const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLe
           )}
         </S.CardPointMainDetails>
       </S.CardPointDetailsContainer>
-      <S.CardPointJoinButton onPress={handlePointJoinButton}>
+      <S.CardPointJoinButton onPress={handleCardPointJoinButton}>
         <S.CardPointJoinButtonText>Entrar</S.CardPointJoinButtonText>
       </S.CardPointJoinButton>
     </S.PointCard>

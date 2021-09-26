@@ -26,7 +26,7 @@ export default function Home() {
     <ContainerPage>
       <Header />
       <S.Container>
-        <UserInfo type="home" />
+        <UserInfo type={1} />
         <StatusBar />
         <LineCars />
       </S.Container>
