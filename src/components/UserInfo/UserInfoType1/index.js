@@ -9,11 +9,15 @@ import * as S from "./styles";
 const UserInfoType1 = () => {
   const { user } = useAuth();
 
+  function loadBase64() {
+    return "data:image/png;base64," + user.photo;
+  }
+
   return (
     <S.UserInfo>
       <S.UserDetailsContainer>
         {user.photo ? (
-          <S.AvatarImage source={{ uri: user.photo }} />
+          <S.AvatarImage source={{ uri: loadBase64() }} />
         ) : (
           <S.UserIconContainer>
             <UserIcon width={normalize(50)} height={normalize(50)} />

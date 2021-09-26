@@ -22,7 +22,6 @@ const UserInfoType2 = ({
   beforeTitleText,
   afterTitleText,
 }) => {
-  const [image, setImage] = useState();
   const { user, updateUserData } = useAuth();
 
   async function requestImagePermission() {
@@ -46,34 +45,24 @@ const UserInfoType2 = ({
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
+        base64: true,
       });
 
       if (!result.cancelled) {
-        setImage(result.uri);
+        await api("PUT", "/user/", { photo: result.base64 });
+        await updateUserData();
+
+        Alert.alert("Sucesso", "Foto de perfil atualizada com sucesso!");
       }
-
-      const uriParts = result.uri.split(".");
-      const fileType = uriParts[uriParts.length - 1];
-
-      const formData = new FormData();
-      formData.append("photo", {
-        uri: result.uri,
-        name: `photo.${fileType}`,
-        type: `image/${fileType}`,
-      });
-
-      let res = await api("PUT", "/user/", formData);
-      // console.log(result.base64)
-      await updateUserData();
-      console.log(user);
-      console.log(res)
-
-      Alert.alert("Sucesso", "Foto de perfil atualizada com sucesso!");
     } catch (err) {
       console.log(err);
       Alert.alert("Erro", "Ocorreu um erro ao tentar atualizar a sua foto de perfil.");
     }
   };
+
+  function loadBase64() {
+    return "data:image/png;base64," + user.photo;
+  }
 
   return (
     <S.UserInfo>
@@ -81,7 +70,7 @@ const UserInfoType2 = ({
         <S.ImageDetailsContainer>
           {user.photo ? (
             <S.AvatarImageContainer style={borderColorHex && { borderColor: borderColorHex }}>
-              <S.AvatarImage source={{ uri: image }} />
+              <S.AvatarImage source={{ uri: loadBase64() }} />
             </S.AvatarImageContainer>
           ) : (
             <S.AvatarImageContainer style={borderColorHex && { borderColor: borderColorHex }}>
