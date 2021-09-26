@@ -7,6 +7,8 @@ import { Entypo } from "@expo/vector-icons";
 import UserIcon from "../../../../assets/img/user-icon.svg";
 import { useAuth } from "../../../contexts/auth";
 
+import api from "../../../Services/api";
+
 import * as S from "./styles";
 
 const UserInfoType2 = ({
@@ -20,8 +22,7 @@ const UserInfoType2 = ({
   beforeTitleText,
   afterTitleText,
 }) => {
-  const [image, setImage] = useState();
-  const { user } = useAuth();
+  const { user, updateUserData } = useAuth();
 
   async function requestImagePermission() {
     if (Platform.OS !== "web") {
@@ -36,21 +37,32 @@ const UserInfoType2 = ({
   }
 
   const pickImage = async () => {
-    await requestImagePermission();
+    try {
+      await requestImagePermission();
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        base64: true,
+      });
 
-    if (!result.cancelled) {
-      setImage(result.uri);
+      if (!result.cancelled) {
+        await api("PUT", "/user/", { photo: result.base64 });
+        await updateUserData();
+
+        Alert.alert("Sucesso", "Foto de perfil atualizada com sucesso!");
+      }
+    } catch (err) {
+      console.log(err);
+      Alert.alert("Erro", "Ocorreu um erro ao tentar atualizar a sua foto de perfil.");
     }
   };
 
-  console.log(subTitleUppercase);
+  function loadBase64() {
+    return "data:image/png;base64," + user.photo;
+  }
 
   return (
     <S.UserInfo>
@@ -58,7 +70,7 @@ const UserInfoType2 = ({
         <S.ImageDetailsContainer>
           {user.photo ? (
             <S.AvatarImageContainer style={borderColorHex && { borderColor: borderColorHex }}>
-              <S.AvatarImage source={{ uri: image }} />
+              <S.AvatarImage source={{ uri: loadBase64() }} />
             </S.AvatarImageContainer>
           ) : (
             <S.AvatarImageContainer style={borderColorHex && { borderColor: borderColorHex }}>

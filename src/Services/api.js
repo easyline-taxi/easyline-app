@@ -2,7 +2,7 @@ import * as SecureStore from "expo-secure-store";
 
 const requestUrl = process.env.REACT_APP_REQUEST_URL || "http://206.189.114.185:8000/api";
 
-const api = async (method, path, data) => {
+const api = async (method, path, data, contentType) => {
 
   const token = await SecureStore.getItemAsync("token");
 
@@ -11,7 +11,8 @@ const api = async (method, path, data) => {
     response = await fetch(requestUrl + path, {
       method,
       headers: {
-        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Content-Type": contentType || "application/json",
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify(data),
@@ -20,7 +21,6 @@ const api = async (method, path, data) => {
     response = await fetch(requestUrl + path, {
       method,
       headers: {
-        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
     });

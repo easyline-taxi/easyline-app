@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState } from 'react'
 import * as SecureStore from 'expo-secure-store';
 
@@ -15,10 +14,10 @@ export const AuthProvider = ({children}) => {
     const { token } = await auth.signIn(userAuthData);
 
     await SecureStore.setItemAsync("token", token)
-    await setUserData();
+    await updateUserData();
   }
 
-  async function setUserData() {
+  async function updateUserData() {
     const { user_data } = await api("GET", "/user/");
     setUser(user_data);
   }
@@ -32,7 +31,7 @@ export const AuthProvider = ({children}) => {
     await SecureStore.deleteItemAsync("token");
   }
 
-  return <AuthContext.Provider value={{signed: !!user, user, signIn, signUp, signOut}}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{signed: !!user, user, updateUserData, signIn, signUp, signOut}}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
