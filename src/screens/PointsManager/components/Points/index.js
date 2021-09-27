@@ -49,6 +49,7 @@ const Points = () => {
                     return (
                       <PointCard
                         key={point.id}
+                        cardPointId={point.id}
                         cardPointTitle={point.name}
                         cardPointOnlineUsersLength={point.onlines}
                       />
@@ -65,6 +66,7 @@ const Points = () => {
                     return (
                       <PointCard
                         key={point.id}
+                        cardPointId={point.id}
                         cardPointTitle={point.name}
                         cardPointOnlineUsersLength={point.onlines}
                       />
