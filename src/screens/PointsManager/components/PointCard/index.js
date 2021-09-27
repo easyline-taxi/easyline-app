@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import normalize from "react-native-normalize";
-import { useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native";
+
+import api from "../../../../Services/api";
 
 import * as S from "./styles";
 
-const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLength }) => {
+const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLength, cardPointId }) => {
   const navigation = useNavigation();
 
   const defaultCardPointTextFontSize = 29;
@@ -32,8 +34,14 @@ const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLe
     }
   }, []);
 
-  function handleCardPointJoinButton() {
-    navigation.navigate("TabStack");
+  async function handleCardPointJoinButton() {
+    try {
+      await api("POST", "/point/", { id: cardPointId });
+      navigation.navigate("TabStack");
+    } catch (err) {
+      console.log(err)
+      Alert.alert("Erro", "Não foi possível entrar no ponto selecionado.");
+    }
   }
 
   return (
