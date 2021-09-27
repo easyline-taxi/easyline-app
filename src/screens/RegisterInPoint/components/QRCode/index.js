@@ -1,19 +1,16 @@
 import React from "react";
 import { default as QRCodeSVG } from "react-native-qrcode-svg";
 
+import { useAuth } from "../../../../contexts/auth";
+
 import * as S from "./styles";
 
 import UserInfo from "../../../../components/UserInfo";
 
 const QRCode = () => {
-  const easyLineLogo = require("../../../../../assets/img/logo-colored.png");
+  const { user } = useAuth();
 
-  const user = {
-    data: {
-      image: "https://thispersondoesnotexist.com/image",
-      username: "Next Tesla",
-    },
-  };
+  const easyLineLogo = require("../../../../../assets/img/logo-colored.png");
 
   return (
     <S.Container>
@@ -27,7 +24,7 @@ const QRCode = () => {
           </S.QRCodeTitleContainer>
           <S.QRCodeBarContainer>
             <S.QRCodeBar>
-              <QRCodeSVG value="Teste" logo={easyLineLogo} logoSize={30} size={200} logoMargin={20} />
+              <QRCodeSVG value={user.email} logo={easyLineLogo} logoSize={30} size={200} logoMargin={20} />
             </S.QRCodeBar>
           </S.QRCodeBarContainer>
         </S.QRCodeContainer>
