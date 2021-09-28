@@ -3,12 +3,16 @@ import { useNavigation } from "@react-navigation/native";
 import { Modalize } from "react-native-modalize";
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import normalize from "react-native-normalize";
 import * as Permissions from "expo-permissions";
 
+import * as MemberUserInfoActions from "../../../../store/actions/memberUserInfo";
+
 import * as S from "./styles";
 
-const ReadQRCode = () => {
+const ReadQRCode = ({ setMemberUserInfoAction }) => {
   const [scanned, setScanned] = useState(false);
   const [hasCameraPermission, setCameraPermission] = useState(false);
   const navigation = useNavigation();
@@ -22,7 +26,7 @@ const ReadQRCode = () => {
 
   useEffect(() => {
     if (scanned) {
-      console.log(`Dados:\n${scanned}`);
+      setMemberUserInfoAction(scanned);
     }
   }, [scanned]);
 
@@ -98,4 +102,8 @@ const ReadQRCode = () => {
   );
 };
 
-export default ReadQRCode;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(MemberUserInfoActions, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(ReadQRCode);

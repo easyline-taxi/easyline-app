@@ -1,13 +1,17 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import { connect } from "react-redux";
 
 import * as S from "./styles";
 
 import PointCard from "../PointCard";
 
-const UserHistory = () => {
+const UserHistory = ({ memberData }) => {
   const navigation = useNavigation();
+
+  console.log("ScannedMemberData\n\n");
+  console.log(memberData);
 
   const user = {
     data: {
@@ -42,12 +46,10 @@ const UserHistory = () => {
   };
 
   function handleRegisterNewDriverButton() {
-    navigation.navigate("RegisterInPointAdminStack")
+    navigation.navigate("RegisterInPointAdminStack");
   }
 
-  function RegisterDriverButton() {
-
-  }
+  function RegisterDriverButton() {}
 
   return (
     <S.Container>
@@ -102,4 +104,8 @@ const UserHistory = () => {
   );
 };
 
-export default UserHistory;
+function mapStateToProps(state) {
+  return { memberData: state.memberUserInfoReducer.data };
+}
+
+export default connect(mapStateToProps)(UserHistory);

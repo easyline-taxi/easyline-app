@@ -9,7 +9,7 @@ import styles from "./styles";
 //import StatusBar from './StatusBar';
 //import LineCars from './LineCars/cars';
 
-import * as ChatMessageActions from "../../store/actions/chatMessage";
+import * as ChatMessageActions from "../../../../store/actions/chatMessage";
 
 const Send = ({ currentSendingMessages, sendMessageAction }) => {
   const [message, setMessage] = useState("");
