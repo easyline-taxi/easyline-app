@@ -1,154 +1,151 @@
-import React, { Component, useEffect } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import List from '../../../components/ListUsers/List';
+import List from "../../../components/ListUsers/List";
 
-import * as S from './styles'
+import * as S from "./styles";
 
+export default function ListUsers() {
+  const navigation = useNavigation();
 
-export default class ListUsers extends Component {
-
-
-  state = {
+  const [userList, setUserList] = useState({
     lists: [
       {
         id: 1,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '1º',
-        vtr: 'VTR 007',
-        name: 'Sergio Camargo',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "1º",
+        vtr: "VTR 007",
+        name: "Sergio Camargo",
       },
       {
         id: 2,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '2º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "2º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 3,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '3º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "3º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 4,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '4º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "4º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 5,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '5º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "5º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 6,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '6º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "6º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 7,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '7º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "7º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 8,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '8º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "8º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 9,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '9º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "9º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 10,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '10º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "10º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 11,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '11º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "11º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 12,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '12º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "12º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 13,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '12º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "12º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 14,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '12º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "12º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 15,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '12º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "12º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
       {
         id: 16,
-        image: 'https://thispersondoesnotexist.com/image',
-        position: '12º',
-        name: 'Sergio Camargo',
-        vtr: 'VTR 007',
+        image: "https://thispersondoesnotexist.com/image",
+        position: "12º",
+        name: "Sergio Camargo",
+        vtr: "VTR 007",
       },
     ],
-  };
+  });
 
-  render() {
-    const navigation = useNavigation();
-
-    function handleRegisterDriverButton() {
-      navigation.navigate("RegisterInPointAdminStack");
-    }
-    
-    return (
-      <S.BackPage>
-        <S.TopContainer>
-          <S.Container>
-            <S.ListTitle>
-              <S.Texto>LISTA DE USUÁRIOS</S.Texto>
-              <S.RegisterDriverButton onPress={handleRegisterDriverButton}>
-                <S.RegisterDriverButtonText>Cadastrar Motorista</S.RegisterDriverButtonText>
-              </S.RegisterDriverButton>
-            </S.ListTitle>
-            <ScrollView>
-              {this.state.lists.map(list => <List key={list.id} list={list} />)}
-            </ScrollView>
-          </S.Container>
-        </S.TopContainer>
-      </S.BackPage>
-    );
+  function handleRegisterDriverButton() {
+    navigation.navigate("RegisterInPointAdminStack");
   }
+
+  return (
+    <S.BackPage>
+      <S.TopContainer>
+        <S.Container>
+          <S.ListTitle>
+            <S.Texto>LISTA DE USUÁRIOS</S.Texto>
+            <S.RegisterDriverButton onPress={handleRegisterDriverButton}>
+              <S.RegisterDriverButtonText>Cadastrar Motorista</S.RegisterDriverButtonText>
+            </S.RegisterDriverButton>
+          </S.ListTitle>
+          <ScrollView>
+            {userList.lists.map((list) => (
+              <List key={list.id} list={list} />
+            ))}
+          </ScrollView>
+        </S.Container>
+      </S.TopContainer>
+    </S.BackPage>
+  );
 }

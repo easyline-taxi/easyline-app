@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import React from "react";
 import Send from "../../screens/Chat/components/Send";
 
-import store from "./store";
+import store from "../../store";
 
 export default function Chat() {
   return (
