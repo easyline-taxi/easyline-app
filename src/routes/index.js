@@ -9,7 +9,7 @@ import { useLocation } from "../contexts/location";
 
 function Routes() {
   const { signed } = useAuth();
-  const { location } = useLocation();
+  const location = true; // Temporário
 
   return (
     <>
