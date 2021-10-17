@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { connect } from "react-redux";
 
 import * as S from "./styles";
 
+import api from "../../../../Services/api";
+
 import PointCard from "../PointCard";
 
 const UserHistory = ({ memberData }) => {
   const navigation = useNavigation();
 
-  console.log("ScannedMemberData\n\n");
-  console.log(memberData);
+  const [UserHistoryData, setUserHistoryData] = useState();
+
+  useEffect(() => {
+    if (memberData) {
+      getUserHistory();
+    }
+  }, [memberData]);
+
+  async function getUserHistory() {
+    try {
+      const response = await api("GET", `/point/historic/${memberData}/getHistoricUserQrCode/`);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const user = {
     data: {
