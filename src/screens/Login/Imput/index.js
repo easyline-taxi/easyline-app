@@ -8,6 +8,7 @@ import * as S from "./styles";
 
 import { Form } from "@unform/mobile";
 import { useAuth } from "../../../contexts/auth";
+import { useWebSocket } from "../../../contexts/websocket";
 import { useNavigation } from "@react-navigation/native";
 import Input from "../../CreateAccount/Register/components/Input";
 
@@ -16,6 +17,7 @@ export default function login(props) {
 
   const formRef = useRef(null);
   const { signIn } = useAuth();
+  const { connectWebSocket } = useWebSocket();
 
   const handleSubmit = async (data) => {
     const { username, password } = data;
@@ -43,6 +45,7 @@ export default function login(props) {
 
       await handleSignIn(body);
       Alert.alert("Sucesso!", "Logado com Sucesso.");
+      connectWebSocket();
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         //validatoin fail
