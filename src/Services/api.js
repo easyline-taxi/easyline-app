@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 
-const requestUrl = process.env.REACT_APP_REQUEST_URL || "http://206.189.114.185:8000/api";
+const requestUrl = process.env.REACT_APP_REQUEST_URL || "https://easyline.ml/api";
 
 const api = async (method, path, data, contentType) => {
 

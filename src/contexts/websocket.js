@@ -12,14 +12,13 @@ export const WebSocketProvider = ({ children }) => {
     if (webSocketReadyState === 1) return;
 
     const token = await SecureStore.getItemAsync("token");
-    const socketConnectionURL = encodeURI(`ws://206.189.114.185:8000/ws/row/?authorization=Bearer ${token}`);
+    const socketConnectionURL = encodeURI(`ws://easyline.ml/ws/row/?authorization=Bearer ${token}`);
 
     socket = new WebSocket(socketConnectionURL);
     setWebSocket(socket);
-    console.log(`WS Ready state: ${socket.readyState}`);
 
     socket.onopen = () => {
-      console.log("Connected to server via websocket. " + `Ready state: ${socket.readyState}`);
+      console.log("Connected to server via websocket.");
       setWebSocketReadyState(socket.readyState);
     };
 
@@ -35,6 +34,10 @@ export const WebSocketProvider = ({ children }) => {
           connectWebSocket();
         }, 3000);
       }
+    };
+
+    socket.onmessage = (e) => {
+      console.log(`Websocket message received:\n${JSON.parse(JSON.stringify(e))}`);
     };
   }
 
