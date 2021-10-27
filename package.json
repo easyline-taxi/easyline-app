@@ -72,6 +72,7 @@
     "redux": "^4.1.0",
     "styled-components": "^5.2.1",
     "styled-px2vw": "^2.0.0",
+    "websocket": "^1.0.34",
     "yup": "^0.32.9"
   },
   "devDependencies": {
