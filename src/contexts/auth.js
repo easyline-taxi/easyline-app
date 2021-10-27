@@ -18,8 +18,8 @@ export const AuthProvider = ({children}) => {
   }
 
   async function updateUserData() {
-    const { user_data } = await api("GET", "/user/");
-    setUser(user_data);
+    const { data } = await api("GET", "/user/");
+    setUser(data.user);
   }
 
   async function signUp(userData) {
