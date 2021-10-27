@@ -1,5 +1,4 @@
-
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Alert, Button, Image, Text, View, touco } from "react-native";
 import { Form } from "@unform/mobile";
 import { useNavigation } from "@react-navigation/native";
@@ -11,24 +10,31 @@ import * as S from "./styles";
 import Input from "./components/Input";
 import { useAuth } from "../../../contexts/auth";
 import { Validator } from "../../../validators";
+import { CPFFormatter } from "../../../utils/cpfformatter";
 
 // import { getUniqueId } from 'react-native-device-info';
 
 export default function Register(props) {
   const formRef = useRef(null);
   const navigation = useNavigation();
+  const [CPFFormatted, setCPFFormatted] = useState("");
 
   const { signUp } = useAuth();
 
+  function formatCPF(value) {
+    const CPFFormattedString = CPFFormatter(value);
+    setCPFFormatted(CPFFormattedString);
+  }
+
   async function handleSubmit(data) {
-    const { name, cpf, email, password, city } = data;
+    let { name, cpf, email, password, city } = data;
     let validationErrors = {};
     const registerValidator = new Validator();
 
     try {
       formRef.current.setErrors({});
 
-      registerValidator.isString({ name: "name" ,value: name, msg: "Campo requerido" });
+      registerValidator.isString({ name: "name", value: name, msg: "Campo requerido" });
       registerValidator.isEmail({ name: "email", value: email, msg: "Campo requerido" });
       registerValidator.isString({ name: "password", value: password, min: 6, msg: "Campo requerido" });
 
@@ -36,6 +42,9 @@ export default function Register(props) {
       /* Validation pass */
 
       const deviceid = Application.androidId;
+
+      cpf = cpf.replace(/[^0-9]/g, "");
+      if (cpf.length > 11) cpf = cpf.substring(0, 11);
 
       const body = {
         cpf,
@@ -77,21 +86,24 @@ export default function Register(props) {
           <S.ContainerIntroInput>
             <Form ref={formRef} onSubmit={handleSubmit}>
               <Input label="Nome" name="name" />
-              <Input label="CPF" name="cpf" keyboardType="numeric" type="text" />
+              <Input
+                label="CPF"
+                name="cpf"
+                keyboardType="numeric"
+                type="text"
+                onChangeText={formatCPF}
+                value={CPFFormatted}
+                maxLength={14}
+              />
 
               <Input label="E-mail" name="email" type="email" />
               <Input label="Senha" name="password" type="password" secureTextEntry={true} />
-                  <S.Space />
-                  <S.ButtonsEndPage>
-                    <S.InputCoutry
-                      autoCapitalize="characters"
-                      maxLength={2}
-                      placeholder="Estado"
-                      name="state"
-                    />
-                    <S.SpaceButtons />
-                    <S.InputCity placeholder="Cidade" name="city" />
-                  </S.ButtonsEndPage>
+              <S.Space />
+              <S.ButtonsEndPage>
+                <S.InputCoutry autoCapitalize="characters" maxLength={2} placeholder="Estado" name="state" />
+                <S.SpaceButtons />
+                <S.InputCity placeholder="Cidade" name="city" />
+              </S.ButtonsEndPage>
 
               <S.ButtonEnter>
                 <S.TextButton onPress={() => formRef.current.submitForm()}>Cadastrar</S.TextButton>
