@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import * as S from "./styles";
 
 import api from "../../../../Services/api";
+import { CPFFormatter } from "../../../../utils/cpfformatter";
 
 import PointCard from "../PointCard";
 
@@ -13,10 +14,12 @@ const UserHistory = ({ memberData }) => {
   const navigation = useNavigation();
 
   const [UserHistoryData, setUserHistoryData] = useState();
+  const [CPFFormatted, setCPFFormatted] = useState("");
 
   useEffect(() => {
     if (memberData) {
       getUserHistory();
+      formatCPF("02587831515");
     }
   }, [memberData]);
 
@@ -29,11 +32,16 @@ const UserHistory = ({ memberData }) => {
     }
   }
 
+  function formatCPF(cpf) {
+    const CPFFormattedString = CPFFormatter(cpf.toString());
+    setCPFFormatted(CPFFormattedString);
+  }
+
   const user = {
     data: {
       image: "https://thispersondoesnotexist.com/image",
       accountCreatedAt: "10 meses",
-      cpf: "025.878.315-15",
+      cpf: "02587831515",
       name: "Hugo Verweij Silva",
       driverPoints: [
         {
@@ -87,7 +95,7 @@ const UserHistory = ({ memberData }) => {
               <S.UserDetailsMain>
                 <S.Username>{user.data.name}</S.Username>
                 <S.UserDetailsSub>
-                  <S.SimpleSmallText>CPF: {user.data.cpf}</S.SimpleSmallText>
+                  <S.SimpleSmallText>CPF: {CPFFormatted}</S.SimpleSmallText>
                   <S.SimpleSmallText>Há {user.data.accountCreatedAt} no app</S.SimpleSmallText>
                 </S.UserDetailsSub>
               </S.UserDetailsMain>

@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import * as Yup from "yup";
 
 import * as S from "./styles";
 
 import api from "../../../../Services/api";
+import { CPFFormatter } from "../../../../utils/cpfformatter";
 import { useAuth } from "../../../../contexts/auth";
 import { Validator } from "../../../../validators";
 
 export default function Input() {
   const { updateUserData, user } = useAuth();
   const [userData, setUserData] = useState({});
+  const [CPFFormatted, setCPFFormatted] = useState("");
   const updateDataValidator = new Validator();
+
+  useEffect(() => {
+    if (user.cpf) {
+      formatCPF(user.cpf);
+    }
+  }, [user]);
+
+  function formatCPF(cpf) {
+    const CPFFormattedString = CPFFormatter(cpf.toString());
+    setCPFFormatted(CPFFormattedString);
+  }
 
   async function handleEditData(data) {
     const { name, password, vtr } = data;
@@ -31,7 +44,7 @@ export default function Input() {
 
       await api("PUT", "/user/", data);
       await updateUserData();
-      
+
       Alert.alert("Sucesso", "Dados atualizados com sucesso!");
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -57,7 +70,7 @@ export default function Input() {
             />
             <S.Space />
             <S.TextInputName>CPF</S.TextInputName>
-            <S.InputName editable={false} mode="outlined" label="CPF" />
+            <S.InputName editable={false} mode="outlined" label="CPF" value={CPFFormatted} />
             <S.Space />
             <S.TextInputName>E-mail</S.TextInputName>
             <S.InputName editable={false} mode="outlined" label="E-mail" value={user.email} />
