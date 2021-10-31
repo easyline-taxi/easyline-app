@@ -10,7 +10,7 @@ import UserInfo from "../../../../components/UserInfo";
 const QRCode = () => {
   const { user } = useAuth();
 
-  const userIDString = (user.id).toString();
+  const userEmailString = (user.email).toString();
 
   const easyLineLogo = require("../../../../../assets/img/logo-colored.png");
 
@@ -26,7 +26,7 @@ const QRCode = () => {
           </S.QRCodeTitleContainer>
           <S.QRCodeBarContainer>
             <S.QRCodeBar>
-              <QRCodeSVG value={userIDString} logo={easyLineLogo} logoSize={30} size={200} logoMargin={20} />
+              <QRCodeSVG value={userEmailString} logo={easyLineLogo} logoSize={30} size={200} logoMargin={20} />
             </S.QRCodeBar>
           </S.QRCodeBarContainer>
         </S.QRCodeContainer>

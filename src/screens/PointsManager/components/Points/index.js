@@ -19,8 +19,8 @@ const Points = () => {
   }, []);
 
   async function fetchPoints() {
-    const res = await api("GET", "/point/");
-    setPointsList(res.points);
+    const { data } = await api("GET", "/point/");
+    setPointsList(data.points);
   }
 
   function handleCreatePointButton() {
