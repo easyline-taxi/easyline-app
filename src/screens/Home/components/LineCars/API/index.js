@@ -1,18 +1,7 @@
-import {
-  Animated,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  componentDidMount,
-} from "react-native";
+import { Animated, Image, ScrollView, StyleSheet, Text, View, componentDidMount, Button } from "react-native";
 import { BackPage, Container, Texto, TopContainer } from "./styles";
 import React, { Component, useEffect, useState } from "react";
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
 
 import { AntDesign } from "@expo/vector-icons";
 import Line from "../Line";
@@ -20,14 +9,16 @@ import LinearGradient from "react-native-linear-gradient";
 import Popup from "../Popup";
 import { SwipeListView } from "react-native-swipe-list-view";
 import api from "../../../../../Services/api";
+import { useWebSocket } from "../../../../../contexts/websocket";
 
 export default function LineCars() {
+  const { webSocket, webSocketReadyState } = useWebSocket();
   const [lines, setLines] = useState([]);
   const [listData, setListData] = useState(
     Array(20)
-    .fill("")
-    .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))
-    );
+      .fill("")
+      .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))
+  );
   useEffect(() => {
     // loadData();
   }, []);
@@ -78,40 +69,27 @@ export default function LineCars() {
   };
 
   const renderItem = (data) => (
-    <Line
-      key={data.item.key}
-      line={data.item}
-      status={parseInt(data.item.key) < 5}
-    />
+    <Line key={data.item.key} line={data.item} status={parseInt(data.item.key) < 5} />
   );
 
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.containerButtons}>
       <View style={styles.tripularview}>
-        <TouchableOpacity
-          style={styles.backleftBtn}
-          onPress={() => closeRow(rowMap, data.item.key)}
-        >
+        <TouchableOpacity style={styles.backleftBtn} onPress={() => closeRow(rowMap, data.item.key)}>
           <View style={styles.arrowup}>
             <Text style={styles.backTextred}>Tripular</Text>
           </View>
         </TouchableOpacity>
       </View>
       <View style={styles.rowBack}>
-        <TouchableOpacity
-          style={styles.backRightBtnLeft}
-          onPress={() => closeRow(rowMap, data.item.key)}
-        >
+        <TouchableOpacity style={styles.backRightBtnLeft} onPress={() => closeRow(rowMap, data.item.key)}>
           <View style={styles.arrowup}>
             <Text style={styles.backTextWhite}>Subir</Text>
             <AntDesign name="arrowup" size={20} color="white" />
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.backRightBtnRight}
-          onPress={() => deleteRow(rowMap, data.item.key)}
-        >
+        <TouchableOpacity style={styles.backRightBtnRight} onPress={() => deleteRow(rowMap, data.item.key)}>
           <View style={styles.arrodown}>
             <Text style={styles.backTextWhite}>Descer</Text>
             <AntDesign name="arrowdown" size={20} color="white" />
