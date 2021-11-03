@@ -15,7 +15,7 @@ function Routes() {
   const locationTrue = true; // Temporário
 
   useEffect(() => {
-    if (location && webSocketReadyState === 1) {
+    if (location && webSocketReadyState === 1 && signed) {
       const WebSocketJSONLocation = JSON.stringify({
         action: "SET_LOCALE",
         params: {
