@@ -4,6 +4,9 @@ import styles from "./styles";
 import { Text, View, Dimensions, Image } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Alert } from "react-native";
+
+import { isConvex } from "../../../utils/checkpolygonconvex";
 
 export default function App() {
   const [maximumPolygonNodesLength] = useState(5);
@@ -32,9 +35,17 @@ export default function App() {
 
   function handleSaveEditingPolygonNodes() {
     if (editingPolygonNodes.length === maximumPolygonNodesLength) {
+      if (!checkIfPolygonIsConvex(editingPolygonNodes))
+        return Alert.alert(
+          "Erro",
+          "O polígono que você criou para delimitar a área é côncavo. Transforme-o em convexo."
+        );
+
       setPolygonNodes(editingPolygonNodes);
       setEditingPolygonNodes([]);
       setPolygonEditMode(false);
+    } else {
+      Alert.alert("Erro", "O polígono para delimitar a área deve ser um pentágono.")
     }
   }
 
@@ -56,6 +67,13 @@ export default function App() {
 
       setEditingPolygonNodes([...removedLastIndexEditingPolygonNodes]);
     }
+  }
+
+  function checkIfPolygonIsConvex(coordinates) {
+    /* Below instruction is converting array of objects in 2D array with only object values
+    [[x,y], [x,y]...]*/
+    const coordinatesArr = coordinates.map((o) => Object.entries(o).map((c) => c[1]));
+    return isConvex(coordinatesArr);
   }
 
   const mapStyle = [
