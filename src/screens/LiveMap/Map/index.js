@@ -1,5 +1,5 @@
-import * as React from "react";
-import MapView, { Marker, Polygon, Polyline } from "react-native-maps";
+import React, { useEffect, useRef } from "react";
+import MapView, { Marker, Polygon, Polyline, MapViewProps } from "react-native-maps";
 import styles from "./styles";
 import { Text, View, Dimensions, Image } from "react-native";
 import { useState } from "react";
@@ -7,12 +7,36 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Alert } from "react-native";
 
 import { isConvex } from "../../../utils/checkpolygonconvex";
+import { useLocation } from "../../../contexts/location";
+import api from "../../../Services/api";
 
 export default function App() {
   const [maximumPolygonNodesLength] = useState(5);
   const [polygonEditingMode, setPolygonEditMode] = useState(false);
   const [editingPolygonNodes, setEditingPolygonNodes] = useState([]);
   const [polygonNodes, setPolygonNodes] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState({});
+  const [followUser, setFollowUser] = useState(false);
+  const mapRef = useRef(null);
+
+  const { location } = useLocation();
+
+  useEffect(() => {
+    (async function () {
+      await setPointArea();
+    })();
+  }, []);
+
+  useEffect(() => {
+    setCurrentLocation({
+      currentLatitude: location.latitude,
+      currentLongitude: location.longitude,
+    });
+
+    if (followUser) {
+      centerInUserLocation();
+    }
+  }, [location]);
 
   function handleSetNode(coordinate) {
     if (editingPolygonNodes.length < maximumPolygonNodesLength) {
@@ -33,7 +57,7 @@ export default function App() {
     setPolygonEditMode(true);
   }
 
-  function handleSaveEditingPolygonNodes() {
+  async function handleSaveEditingPolygonNodes() {
     if (editingPolygonNodes.length === maximumPolygonNodesLength) {
       if (!checkIfPolygonIsConvex(editingPolygonNodes))
         return Alert.alert(
@@ -41,11 +65,18 @@ export default function App() {
           "O polígono que você criou para delimitar a área é côncavo. Transforme-o em convexo."
         );
 
-      setPolygonNodes(editingPolygonNodes);
       setEditingPolygonNodes([]);
       setPolygonEditMode(false);
+
+      try {
+        await updatePolygonArea([...editingPolygonNodes, editingPolygonNodes[0]]);
+        await setPointArea();
+        Alert.alert("Sucesso", "A área do seu ponto foi atualizada com sucesso!");
+      } catch (err) {
+        Alert.alert("Erro", `Ocorreu um erro ao tentar atualizar a área do seu ponto:\n${err}`);
+      }
     } else {
-      Alert.alert("Erro", "O polígono para delimitar a área deve ser um pentágono.")
+      Alert.alert("Erro", "O polígono para delimitar a área deve ser um pentágono.");
     }
   }
 
@@ -69,11 +100,28 @@ export default function App() {
     }
   }
 
+  function handleFollowUserButton() {
+    setFollowUser(!followUser);
+  }
+
   function checkIfPolygonIsConvex(coordinates) {
     /* Below instruction is converting array of objects in 2D array with only object values
     [[x,y], [x,y]...]*/
     const coordinatesArr = coordinates.map((o) => Object.entries(o).map((c) => c[1]));
     return isConvex(coordinatesArr);
+  }
+
+  async function updatePolygonArea(coordinates) {
+    return await api("PUT", "/admin/config/", { coordinates });
+  }
+
+  async function setPointArea() {
+    const { data } = await api("GET", "/admin/config/");
+    setPolygonNodes(data.local.splice(0, data.local.length - 1));
+  }
+
+  function centerInUserLocation() {
+    mapRef.current.animateCamera({ center: { latitude: location.latitude, longitude: location.longitude } });
   }
 
   const mapStyle = [
@@ -331,18 +379,23 @@ export default function App() {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: -22.971208,
-          longitude: -43.184021,
+          latitude: location.latitude,
+          longitude: location.longitude,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
         customMapStyle={mapStyle}
         onPress={handleMapPress}
+        showsMyLocationButton={true}
+        showsUserLocation={true}
+        ref={mapRef}
       >
         <Marker
-          coordinate={{ latitude: -22.971208, longitude: -43.184021 }}
-          title={"PA"}
-          description={"Ipanema Top Taxi"}
+          coordinate={{
+            latitude: currentLocation?.currentLatitude || 0,
+            longitude: currentLocation?.currentLongitude || 0,
+          }}
+          title={"Você"}
         >
           <Image source={require("../../../../assets/img/taxi.png")} style={{ height: 55, width: 55 }} />
         </Marker>
@@ -373,9 +426,14 @@ export default function App() {
           </>
         )}
         {!polygonEditingMode && (
-          <TouchableOpacity style={styles.button} onPress={handleEditButtonPress}>
-            <Text style={styles.text}>Editar</Text>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity style={styles.button} onPress={handleFollowUserButton}>
+              <Text style={styles.text}>{!followUser ? "Me seguir" : "Parar de me seguir"}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleEditButtonPress}>
+              <Text style={styles.text}>Editar</Text>
+            </TouchableOpacity>
+          </>
         )}
       </View>
     </View>
