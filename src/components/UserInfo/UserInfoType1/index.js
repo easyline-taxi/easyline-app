@@ -10,7 +10,11 @@ const UserInfoType1 = () => {
   const { user } = useAuth();
 
   function loadBase64() {
-    return "data:image/png;base64," + user.photo;
+    if (!user.photo.includes("data:image")) {
+      return "data:image/png;base64," + user.photo;
+    } else {
+      return user.photo;
+    }
   }
 
   return (

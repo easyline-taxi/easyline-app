@@ -6,35 +6,27 @@ import { connect } from "react-redux";
 import * as S from "./styles";
 
 import api from "../../../../Services/api";
-import { CPFFormatter } from "../../../../utils/cpfformatter";
 
 import PointCard from "../PointCard";
 
 const UserHistory = ({ memberData }) => {
   const navigation = useNavigation();
-
-  const [UserHistoryData, setUserHistoryData] = useState();
-  const [CPFFormatted, setCPFFormatted] = useState("");
+  const [userHistoryData, setUserHistoryData] = useState({});
 
   useEffect(() => {
     if (memberData) {
       getUserHistory();
-      formatCPF("02587831515");
     }
   }, [memberData]);
 
   async function getUserHistory() {
     try {
-      const response = await api("GET", `/point/historic/${memberData}/getHistoricUserQrCode/`);
-      console.log(response);
+      const { data } = await api("POST", "/admin/getHistoric/", { email: memberData });
+
+      setUserHistoryData(data);
     } catch (err) {
       console.log(err);
     }
-  }
-
-  function formatCPF(cpf) {
-    const CPFFormattedString = CPFFormatter(cpf.toString());
-    setCPFFormatted(CPFFormattedString);
   }
 
   const user = {
@@ -93,10 +85,9 @@ const UserHistory = ({ memberData }) => {
                 </S.BadgeContainer>
               </S.AvatarImageContainer>
               <S.UserDetailsMain>
-                <S.Username>{user.data.name}</S.Username>
+                <S.Username>{userHistoryData.user?.name}</S.Username>
                 <S.UserDetailsSub>
-                  <S.SimpleSmallText>CPF: {CPFFormatted}</S.SimpleSmallText>
-                  <S.SimpleSmallText>Há {user.data.accountCreatedAt} no app</S.SimpleSmallText>
+                  <S.SimpleSmallText>Há xx meses no app</S.SimpleSmallText>
                 </S.UserDetailsSub>
               </S.UserDetailsMain>
             </S.UserDetailsContainer>
