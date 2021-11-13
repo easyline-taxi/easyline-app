@@ -1,7 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Splash from "./splash.routes";
 import Login from "./login.routes";
 import Welcome from "./welcome.routes";
 import CreateAccout from "./createaccount.routes";
@@ -12,12 +11,11 @@ const AuthStack = createStackNavigator();
 
 function AuthRoutes() {
   return (
-    <AuthStack.Navigator initialRouteName="splash"
+    <AuthStack.Navigator initialRouteName="WelcomeStack"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <AuthStack.Screen name="SplashStack" component={Splash} />
       <AuthStack.Screen name="WelcomeStack" component={Welcome} />
       <AuthStack.Screen name="CreateAccoutStack" component={CreateAccout} />
       <AuthStack.Screen name="LoginStack" component={Login} />

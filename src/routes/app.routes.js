@@ -13,7 +13,6 @@ import UserHistoryRegisterInPointStack from "./userhistoryregisterinpoint.routes
 import Financeiro from "./financeiro.routes";
 import Plans from "./plans.routes";
 import QRcode from "./qrcode.routes";
-import Splash from "./splash.routes";
 import LiveMap from "./livemap.routes";
 import { initialWindowMetrics } from "react-native-safe-area-context";
 
@@ -22,12 +21,11 @@ const AppStack = createStackNavigator();
 function AppRoutes() {
   return (
     <AppStack.Navigator
-      initialRouteName="splash"
+      initialRouteName="PointsManagerStack"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <AppStack.Screen name="SplashStack" component={Splash} />
       <AppStack.Screen name="PointsManagerStack" component={PointsManagerStack} />
       <AppStack.Screen name="RegisterInPointStack" component={RegisterInPointStack} />
       <AppStack.Screen name="CreatePointsStack" component={CreatePointsStack} />
