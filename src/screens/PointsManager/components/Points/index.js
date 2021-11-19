@@ -5,6 +5,7 @@ import * as S from "./styles";
 
 import PointCard from "../PointCard";
 import UserInfo from "../../../../components/UserInfo";
+import LoadingSpinner from "../../../../components/LoadingSpinner";
 
 import api from "../../../../Services/api";
 import { useAuth } from "../../../../contexts/auth";
@@ -13,6 +14,7 @@ const Points = () => {
   const navigation = useNavigation();
   const auth = useAuth();
   const [pointsList, setPointsList] = useState([]);
+  const [PointListLoading, setPointListLoading] = useState(true);
 
   useEffect(() => {
     fetchPoints();
@@ -21,6 +23,7 @@ const Points = () => {
   async function fetchPoints() {
     const { data } = await api("GET", "/point/");
     setPointsList(data.points);
+    setPointListLoading(false);
   }
 
   function handleCreatePointButton() {
@@ -43,9 +46,10 @@ const Points = () => {
             <S.Points>
               <S.PointsTitle>Pontos que você é motorista</S.PointsTitle>
               <S.PointsCardsContainer>
+                {PointListLoading && <LoadingSpinner spinType={1} />}
                 {pointsList
                   .filter((point) => point.function === "M")
-                  ?.map((point) => {
+                  ?.map((point, i) => {
                     return (
                       <PointCard
                         key={point.id}
@@ -60,9 +64,10 @@ const Points = () => {
             <S.Points>
               <S.PointsTitle>Pontos que você administra</S.PointsTitle>
               <S.PointsCardsContainer>
+                {PointListLoading && <LoadingSpinner spinType={1} />}
                 {pointsList
                   .filter((point) => point.function === "A")
-                  ?.map((point) => {
+                  ?.map((point, i) => {
                     return (
                       <PointCard
                         key={point.id}

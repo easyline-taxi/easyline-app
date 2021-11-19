@@ -9,6 +9,7 @@ import * as S from "./styles";
 import { Form } from "@unform/mobile";
 import { useAuth } from "../../../contexts/auth";
 import { useWebSocket } from "../../../contexts/websocket";
+import { useLoadingSpinnerModalManager } from "../../../contexts/loadingSpinnerModalManager";
 import { useNavigation } from "@react-navigation/native";
 import Input from "../../CreateAccount/Register/components/Input";
 
@@ -18,6 +19,7 @@ export default function login(props) {
   const formRef = useRef(null);
   const { signIn } = useAuth();
   const { connectWebSocket } = useWebSocket();
+  const { enableLoadingSpinnerModal, disableLoadingSpinnerModal } = useLoadingSpinnerModalManager();
 
   const handleSubmit = async (data) => {
     const { username, password } = data;
@@ -43,10 +45,14 @@ export default function login(props) {
         deviceid: Application.androidId
       };
 
+      enableLoadingSpinnerModal();
       await handleSignIn(body);
+      disableLoadingSpinnerModal();
+
       Alert.alert("Sucesso!", "Logado com Sucesso.");
       connectWebSocket();
     } catch (err) {
+      disableLoadingSpinnerModal();
       if (err instanceof Yup.ValidationError) {
         //validatoin fail
         err.inner.forEach((error) => {
