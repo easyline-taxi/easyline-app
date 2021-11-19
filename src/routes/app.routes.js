@@ -16,30 +16,35 @@ import QRcode from "./qrcode.routes";
 import LiveMap from "./livemap.routes";
 import { initialWindowMetrics } from "react-native-safe-area-context";
 
+import LoadingSpinner from "../components/LoadingSpinner";
+
 const AppStack = createStackNavigator();
 
 function AppRoutes() {
   return (
-    <AppStack.Navigator
-      initialRouteName="PointsManagerStack"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <AppStack.Screen name="PointsManagerStack" component={PointsManagerStack} />
-      <AppStack.Screen name="RegisterInPointStack" component={RegisterInPointStack} />
-      <AppStack.Screen name="CreatePointsStack" component={CreatePointsStack} />
-      <AppStack.Screen name="TabStack" component={TabStack} />
-      <AppStack.Screen name="AdminStack" component={AdminStack} />
-      <AppStack.Screen name="NotificationStack" component={Notification} />
-      <AppStack.Screen name="UsersAdminStack" component={UsersAdmin} />
-      <AppStack.Screen name="RegisterInPointAdminStack" component={RegisterInPointAdminStack} />
-      <AppStack.Screen name="UserHistoryRegisterInPointStack" component={UserHistoryRegisterInPointStack} />
-      <AppStack.Screen name="FinanceiroStack" component={Financeiro} />
-      <AppStack.Screen name="PlansStack" component={Plans} />
-      <AppStack.Screen name="QRcodeStack" component={QRcode} />
-      <AppStack.Screen name="LiveMapStack" component={LiveMap} />
-    </AppStack.Navigator>
+    <>
+      <AppStack.Navigator
+        initialRouteName="PointsManagerStack"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <AppStack.Screen name="PointsManagerStack" component={PointsManagerStack} />
+        <AppStack.Screen name="RegisterInPointStack" component={RegisterInPointStack} />
+        <AppStack.Screen name="CreatePointsStack" component={CreatePointsStack} />
+        <AppStack.Screen name="TabStack" component={TabStack} />
+        <AppStack.Screen name="AdminStack" component={AdminStack} />
+        <AppStack.Screen name="NotificationStack" component={Notification} />
+        <AppStack.Screen name="UsersAdminStack" component={UsersAdmin} />
+        <AppStack.Screen name="RegisterInPointAdminStack" component={RegisterInPointAdminStack} />
+        <AppStack.Screen name="UserHistoryRegisterInPointStack" component={UserHistoryRegisterInPointStack} />
+        <AppStack.Screen name="FinanceiroStack" component={Financeiro} />
+        <AppStack.Screen name="PlansStack" component={Plans} />
+        <AppStack.Screen name="QRcodeStack" component={QRcode} />
+        <AppStack.Screen name="LiveMapStack" component={LiveMap} />
+      </AppStack.Navigator>
+      <LoadingSpinner />
+    </>
   );
 }
 

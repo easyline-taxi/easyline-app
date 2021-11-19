@@ -7,10 +7,13 @@ import CreateAccout from "./createaccount.routes";
 import RecoverPassword from "./recoverpassword.routes";
 import { initialWindowMetrics } from "react-native-safe-area-context";
 
+import LoadingSpinner from "../components/LoadingSpinner";
+
 const AuthStack = createStackNavigator();
 
 function AuthRoutes() {
   return (
+    <>
     <AuthStack.Navigator initialRouteName="WelcomeStack"
       screenOptions={{
         headerShown: false,
@@ -20,7 +23,10 @@ function AuthRoutes() {
       <AuthStack.Screen name="CreateAccoutStack" component={CreateAccout} />
       <AuthStack.Screen name="LoginStack" component={Login} />
       <AuthStack.Screen name="RecoverPasswordStack" component={RecoverPassword} />
+      <AuthStack.Screen name="LoadingSpinnerScreen" component={LoadingSpinner} />
     </AuthStack.Navigator>
+    <LoadingSpinner/>
+    </>
   );
 }
 
