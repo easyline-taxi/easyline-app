@@ -46,7 +46,7 @@ const Points = () => {
             <S.Points>
               <S.PointsTitle>Pontos que você é motorista</S.PointsTitle>
               <S.PointsCardsContainer>
-                {PointListLoading && <LoadingSpinner />}
+                {PointListLoading && <LoadingSpinner spinType={1} />}
                 {pointsList
                   .filter((point) => point.function === "M")
                   ?.map((point, i) => {
@@ -64,7 +64,7 @@ const Points = () => {
             <S.Points>
               <S.PointsTitle>Pontos que você administra</S.PointsTitle>
               <S.PointsCardsContainer>
-              {PointListLoading && <LoadingSpinner />}
+                {PointListLoading && <LoadingSpinner spinType={1} />}
                 {pointsList
                   .filter((point) => point.function === "A")
                   ?.map((point, i) => {
