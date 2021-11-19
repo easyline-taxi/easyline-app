@@ -23,9 +23,7 @@ const LoadingSpinner = ({ modalEnabled, spinColor, spinType }) => {
       toValue: 1,
       duration: 500,
       useNativeDriver: true,
-    }).start(({ finished }) => {
-      console.log("Finished FadeIn");
-    });
+    }).start();
   };
 
   const fadeOut = () => {
@@ -33,9 +31,7 @@ const LoadingSpinner = ({ modalEnabled, spinColor, spinType }) => {
       toValue: 0,
       duration: 500,
       useNativeDriver: true,
-    }).start(({ finished }) => {
-      console.log("Finished FadeOut");
-    });
+    }).start();
   };
 
   const openLoadingModal = () => {
