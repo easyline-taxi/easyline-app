@@ -40,7 +40,7 @@ const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLe
   async function handleCardPointJoinButton() {
     try {
       enableLoadingSpinnerModal();
-      await api("POST", "/point/", { id: cardPointId });
+      await api("POST", "/point/", { point: cardPointId });
       navigation.navigate("TabStack");
       disableLoadingSpinnerModal();
     } catch (err) {
