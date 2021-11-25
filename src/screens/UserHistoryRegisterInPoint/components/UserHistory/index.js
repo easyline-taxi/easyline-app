@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { connect } from "react-redux";
 
+import { useLoadingSpinnerModalManager } from "../../../../contexts/loadingSpinnerModalManager";
 import * as S from "./styles";
-
 import api from "../../../../Services/api";
 
 import PointCard from "../PointCard";
@@ -12,17 +13,24 @@ import PointCard from "../PointCard";
 const UserHistory = ({ memberData }) => {
   const navigation = useNavigation();
   const [userHistoryData, setUserHistoryData] = useState({});
+  const { enableLoadingSpinnerModal, disableLoadingSpinnerModal } = useLoadingSpinnerModalManager();
+  const [parsedMemberData, setParsedMemberData] = useState();
 
   useEffect(() => {
     if (memberData) {
-      getUserHistory();
+      setParsedMemberData(JSON.parse(memberData));
     }
   }, [memberData]);
 
+  useEffect(() => {
+    if (parsedMemberData) {
+      getUserHistory();
+    }
+  }, [parsedMemberData]);
+
   async function getUserHistory() {
     try {
-      const { data } = await api("POST", "/admin/getHistoric/", { email: memberData });
-
+      const { data } = await api("POST", "/admin/getHistoric/", { email: parsedMemberData.email });
       setUserHistoryData(data);
     } catch (err) {
       console.log(err);
@@ -65,7 +73,24 @@ const UserHistory = ({ memberData }) => {
     navigation.navigate("RegisterInPointAdminStack");
   }
 
-  function RegisterDriverButton() {}
+  async function RegisterDriverButton() {
+    try {
+      enableLoadingSpinnerModal();
+      await api("POST", "/admin/actions/", {
+        email: parsedMemberData.email,
+        deviceid: parsedMemberData.deviceId,
+      });
+
+      navigation.navigate("PointsManagerStack");
+      disableLoadingSpinnerModal();
+
+      Alert.alert("Sucesso!", "Motorista cadastrado no ponto com sucesso.");
+    } catch (err) {
+      disableLoadingSpinnerModal();
+      Alert.alert("Erro", "Ocorreu um erro ao tentar cadastrar o motorista no ponto.");
+      console.log(err);
+    }
+  }
 
   return (
     <S.Container>

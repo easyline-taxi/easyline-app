@@ -1,4 +1,5 @@
 import React from "react";
+import * as Application from "expo-application";
 import { default as QRCodeSVG } from "react-native-qrcode-svg";
 
 import { useAuth } from "../../../../contexts/auth";
@@ -10,7 +11,7 @@ import UserInfo from "../../../../components/UserInfo";
 const QRCode = () => {
   const { user } = useAuth();
 
-  const userEmailString = (user.email).toString();
+  const userData = JSON.stringify({ email: user.email.toString(), deviceId: Application.androidId });
 
   const easyLineLogo = require("../../../../../assets/img/logo-colored.png");
 
@@ -26,7 +27,7 @@ const QRCode = () => {
           </S.QRCodeTitleContainer>
           <S.QRCodeBarContainer>
             <S.QRCodeBar>
-              <QRCodeSVG value={userEmailString} logo={easyLineLogo} logoSize={30} size={200} logoMargin={20} />
+              <QRCodeSVG value={userData} logo={easyLineLogo} logoSize={30} size={200} logoMargin={20} />
             </S.QRCodeBar>
           </S.QRCodeBarContainer>
         </S.QRCodeContainer>
