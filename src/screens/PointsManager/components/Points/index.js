@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import * as S from "./styles";
 
@@ -19,6 +19,10 @@ const Points = () => {
   useEffect(() => {
     fetchPoints();
   }, []);
+
+  useFocusEffect(() => {
+    return () => fetchPoints();
+  });
 
   async function fetchPoints() {
     const { data } = await api("GET", "/point/");
