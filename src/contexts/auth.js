@@ -8,6 +8,7 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // There will be user object data.
+  const [currentPointFunction, setCurrentPointFunction] = useState(null);
 
   async function signIn(userAuthData) {
     await SecureStore.deleteItemAsync("token");
@@ -31,8 +32,23 @@ export const AuthProvider = ({ children }) => {
     await SecureStore.deleteItemAsync("token");
   }
 
+  function updateCurrentPointFunction(func) {
+    setCurrentPointFunction(func);
+  }
+
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, updateUserData, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{
+        signed: !!user,
+        user,
+        updateUserData,
+        signIn,
+        signUp,
+        signOut,
+        currentPointFunction,
+        updateCurrentPointFunction,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
