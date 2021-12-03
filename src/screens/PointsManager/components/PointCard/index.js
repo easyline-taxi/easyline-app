@@ -4,14 +4,22 @@ import normalize from "react-native-normalize";
 import { Alert } from "react-native";
 
 import { useLoadingSpinnerModalManager } from "../../../../contexts/loadingSpinnerModalManager";
+import { useAuth } from "../../../../contexts/auth";
 
 import api from "../../../../Services/api";
 
 import * as S from "./styles";
 
-const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLength, cardPointId }) => {
+const PointCard = ({
+  cardPointTitle,
+  CardPointJoinedDate,
+  cardPointOnlineUsersLength,
+  cardPointId,
+  func,
+}) => {
   const navigation = useNavigation();
   const { enableLoadingSpinnerModal, disableLoadingSpinnerModal } = useLoadingSpinnerModalManager();
+  const { updateCurrentPointFunction } = useAuth();
 
   const defaultCardPointTextFontSize = 29;
   const cardPointSignTextCharsLimit = 6;
@@ -41,11 +49,12 @@ const PointCard = ({ cardPointTitle, CardPointJoinedDate, cardPointOnlineUsersLe
     try {
       enableLoadingSpinnerModal();
       await api("POST", "/point/", { point: cardPointId });
+      updateCurrentPointFunction(func);
       navigation.navigate("TabStack");
       disableLoadingSpinnerModal();
     } catch (err) {
       disableLoadingSpinnerModal();
-      console.log(err)
+      console.log(err);
       Alert.alert("Erro", "Não foi possível entrar no ponto selecionado.");
     }
   }

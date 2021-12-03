@@ -1,4 +1,14 @@
-import { Animated, Image, ScrollView, StyleSheet, Text, View, componentDidMount, Button } from "react-native";
+import {
+  Animated,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  componentDidMount,
+  Button,
+} from "react-native";
 import { BackPage, Container, Texto, TopContainer } from "./styles";
 import React, { Component, useEffect, useState } from "react";
 import { TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
@@ -7,12 +17,16 @@ import { AntDesign } from "@expo/vector-icons";
 import Line from "../Line";
 import LinearGradient from "react-native-linear-gradient";
 import Popup from "../Popup";
-import { SwipeListView } from "react-native-swipe-list-view";
 import api from "../../../../../Services/api";
+import { SwipeListView } from "react-native-swipe-list-view";
+import { useLoadingSpinnerModalManager } from "../../../../../contexts/loadingSpinnerModalManager";
 import { useWebSocket } from "../../../../../contexts/websocket";
+import { useAuth } from "../../../../../contexts/auth";
 
 export default function LineCars() {
-  const { webSocket, webSocketReadyState } = useWebSocket();
+  const { socketMessagesData } = useWebSocket();
+  const { currentPointFunction } = useAuth();
+  const { enableLoadingSpinnerModal, disableLoadingSpinnerModal } = useLoadingSpinnerModalManager();
   const [lines, setLines] = useState([]);
   const [listData, setListData] = useState(
     Array(20)
@@ -20,23 +34,56 @@ export default function LineCars() {
       .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))
   );
   useEffect(() => {
-    // loadData();
+    loadData();
   }, []);
 
-  async function loadData() {
-    const response = await api("POST", "api/users?page=2");
+  useEffect(() => {
+    if (socketMessagesData.event === "POINT_ROW_CHANGED") {
+      loadData();
+    }
+  }, [socketMessagesData]);
 
-    const data = response.data.data.map((item, i) => ({
+  async function loadData() {
+    const { data } = await api("GET", "/point/row/");
+
+    const lineData = data.map((driver, i) => ({
       key: i.toString(),
-      id: item.id,
-      image: item.avatar,
-      position: item.id,
-      name: item.first_name,
-      vtr: item.last_name,
+      id: driver.id,
+      position: 2,
+      name: driver.user.name,
+      image: driver.user.photo,
+      vtr: driver.user.vtr,
+      user_id: driver.user_id,
     }));
-    console.log(data);
-    setLines(data);
-    console.log(data);
+
+    setLines(lineData);
+  }
+
+  async function moveUserRow(userData, positionHeading) {
+    try {
+      enableLoadingSpinnerModal();
+      await api("PUT", "/point/row/", {
+        user: userData.user_id,
+        position: positionHeading == "up" ? userData.position - 1 : userData.position + 1,
+      });
+      disableLoadingSpinnerModal();
+    } catch (err) {
+      disableLoadingSpinnerModal();
+      Alert.alert("Erro", "Ocorreu um erro ao tentar movimentar o usuário na fila.");
+    }
+  }
+
+  async function manUserRow(userId) {
+    try {
+      enableLoadingSpinnerModal();
+      await api("POST", "/point/row/", { user: userId });
+      disableLoadingSpinnerModal();
+      Alert.alert("Sucesso!", "Usuário tripulado com sucesso.");
+    } catch (err) {
+      disableLoadingSpinnerModal();
+      console.log(err);
+      Alert.alert("Erro", "Ocorreu um erro ao tentar tripular o usuário.");
+    }
   }
 
   const closeRow = (rowMap, rowKey) => {
@@ -56,7 +103,7 @@ export default function LineCars() {
     rowSwipeAnimatedValues[key].setValue(Math.abs(value));
   };
 
-  const deleteRow = (rowMap, rowKey) => {
+  const deleteRow = (rowMap, rowKey, userRowData) => {
     closeRow(rowMap, rowKey);
     const newData = [...listData];
     const prevIndex = listData.findIndex((item) => item.key === rowKey);
@@ -75,21 +122,39 @@ export default function LineCars() {
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.containerButtons}>
       <View style={styles.tripularview}>
-        <TouchableOpacity style={styles.backleftBtn} onPress={() => closeRow(rowMap, data.item.key)}>
+        <TouchableOpacity
+          style={styles.backleftBtn}
+          onPress={() => {
+            closeRow(rowMap, data.item.key);
+            manUserRow(data.item.user_id);
+          }}
+        >
           <View style={styles.arrowup}>
             <Text style={styles.backTextred}>Tripular</Text>
           </View>
         </TouchableOpacity>
       </View>
       <View style={styles.rowBack}>
-        <TouchableOpacity style={styles.backRightBtnLeft} onPress={() => closeRow(rowMap, data.item.key)}>
+        <TouchableOpacity
+          style={styles.backRightBtnLeft}
+          onPress={() => {
+            closeRow(rowMap, data.item.key);
+            moveUserRow(data.item, "up");
+          }}
+        >
           <View style={styles.arrowup}>
             <Text style={styles.backTextWhite}>Subir</Text>
             <AntDesign name="arrowup" size={20} color="white" />
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.backRightBtnRight} onPress={() => deleteRow(rowMap, data.item.key)}>
+        <TouchableOpacity
+          style={styles.backRightBtnRight}
+          onPress={() => {
+            deleteRow(rowMap, data.item.key);
+            moveUserRow(data.item, "down");
+          }}
+        >
           <View style={styles.arrodown}>
             <Text style={styles.backTextWhite}>Descer</Text>
             <AntDesign name="arrowdown" size={20} color="white" />
@@ -105,11 +170,13 @@ export default function LineCars() {
         <Container>
           <Texto>FILA DE VTR'S</Texto>
           <View style={styles.container}>
-            {/* <SwipeListView
+            <SwipeListView
               style={styles.swipelistview}
               data={lines}
               renderItem={renderItem}
-              renderHiddenItem={renderHiddenItem}
+              renderHiddenItem={
+                currentPointFunction === "A" || currentPointFunction === "P" ? renderHiddenItem : () => {}
+              }
               leftOpenValue={75}
               rightOpenValue={-150}
               previewRowKey={"0"}
@@ -117,7 +184,7 @@ export default function LineCars() {
               previewOpenDelay={3000}
               onRowDidOpen={onRowDidOpen}
               onSwipeValueChange={onSwipeValueChange}
-            /> */}
+            />
           </View>
         </Container>
       </TopContainer>
