@@ -31,4 +31,6 @@ export const SubTitle = styled.Text`
   color: white;
   font-size: 13px;
 `;
+
+export const ActionButtonContainer = styled.TouchableOpacity``;
  
