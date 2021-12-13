@@ -22,10 +22,13 @@ export const Avatar = styled.Image`
   border-radius: 10px;
   border-color: #fff;
   border-width: 2px;
+  background-color: #ccc;
 `;
 
 export const TextVtr = styled.Text`
   font-size: 10px;
+  padding-right: 10px;
+  padding-left: 5%;
   color: #fff;
 `;
 export const ContainerAlone = styled.View``;

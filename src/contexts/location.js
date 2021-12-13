@@ -11,16 +11,36 @@ export const LocationProvider = ({ children }) => {
   const LOCATION_TASK_NAME = "LOCATION_TRACKING";
 
   useEffect(() => {
-    if (!locationServicesEnabled) {
-      Alert.alert("Erro", "Habilite o serviço de localização para poder utilizar o app.");
+    let isMounted = true;
+    if (isMounted) {
+      if (!locationServicesEnabled) {
+        Alert.alert("Erro", "Habilite o serviço de localização para poder utilizar o app.");
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [locationServicesEnabled]);
 
   useEffect(() => {
-    (async () => {
-      handleCheckLocationServicesEnabled();
-      await initializeLocationTask();
-    })();
+    let isMounted = true;
+
+    if (isMounted) {
+      (async () => {
+        handleCheckLocationServicesEnabled();
+        await initializeLocationTask();
+      })();
+    }
+
+    return async () => {
+      try {
+        await TaskManager.unregisterAllTasksAsync();
+      } catch (err) {
+        console.log(`Error trying to unregister all tasks:\n:${err}`);
+      }
+      isMounted = false;
+    };
   }, []);
 
   const initializeLocationTask = async () => {
@@ -53,8 +73,12 @@ export const LocationProvider = ({ children }) => {
         await handleStartLocationUpdates();
       }
 
-      if (!(await Location.hasStartedLocationUpdatesAsync(LOCATION_TASK_NAME))) {
-        await handleStartLocationUpdates();
+      try {
+        if (!(await Location.hasStartedLocationUpdatesAsync(LOCATION_TASK_NAME))) {
+          await handleStartLocationUpdates();
+        }
+      } catch (err) {
+        console.log(`Errorrr\n:${err}`);
       }
 
       handleCheckLocationServicesEnabled();

@@ -47,6 +47,12 @@ const PointCreator = () => {
       await pointValidator.isValid();
       await handleCreatePoint(data);
 
+      if (freePlanToggleCheckBox) {
+        navigation.navigate("PointsManagerStack");
+      } else {
+        navigation.navigate("PlansStack");
+      }
+
       Alert.alert("Ponto criado com sucesso!");
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -64,11 +70,6 @@ const PointCreator = () => {
 
   function handleRegisterButton() {
     formRef.current.submitForm();
-    if (freePlanToggleCheckBox) {
-      navigation.navigate("PointsManagerStack");
-    } else {
-      navigation.navigate("PlansStack");
-    }
   }
 
   return (
