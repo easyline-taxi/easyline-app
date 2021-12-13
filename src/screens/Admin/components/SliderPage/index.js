@@ -23,7 +23,7 @@ export default class SliderPage extends Component {
             value={20}
             thumbStyle={{
               width: 40,
-              heigth: 40,
+              height: 40,
               backgroundColor: "transparent",
               paddingBottom: 80,
             }}
