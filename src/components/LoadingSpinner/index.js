@@ -9,12 +9,19 @@ const LoadingSpinner = ({ modalEnabled, spinColor, spinType }) => {
   const [modalEnabledState, setModalEnabledState] = useState(false);
 
   useEffect(() => {
-    setModalEnabledState(modalEnabled);
-    if (modalEnabled) {
-      openLoadingModal();
-    } else {
-      closeLoadingModal();
+    let isMounted = true;
+    if (isMounted) {
+      setModalEnabledState(modalEnabled);
+      if (modalEnabled) {
+        openLoadingModal();
+      } else {
+        closeLoadingModal();
+      }
     }
+    return () => {
+      setModalEnabledState(false);
+      isMounted = false;
+    };
   }, [modalEnabled]);
 
   const fadeIn = () => {
