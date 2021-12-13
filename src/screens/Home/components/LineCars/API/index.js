@@ -39,7 +39,6 @@ export default function LineCars() {
 
   useEffect(() => {
     if (socketMessagesData.event === "POINT_ROW_CHANGED") {
-      console.log("POINT ROW CHANGED");
       loadData();
     }
   }, [socketMessagesData]);
@@ -69,7 +68,6 @@ export default function LineCars() {
       enableLoadingSpinnerModal();
       const currentPos = Number(userData.position.replace(/\D/g, ""));
       const positionForMove = positionHeading == "up" ? currentPos - 1 : currentPos + 1;
-      console.log(positionForMove);
 
       await api("PUT", "/point/row/", {
         user: userData.user_id,
