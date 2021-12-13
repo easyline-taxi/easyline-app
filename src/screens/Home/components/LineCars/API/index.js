@@ -39,32 +39,41 @@ export default function LineCars() {
 
   useEffect(() => {
     if (socketMessagesData.event === "POINT_ROW_CHANGED") {
+      console.log("POINT ROW CHANGED");
       loadData();
     }
   }, [socketMessagesData]);
 
   async function loadData() {
-    const { data } = await api("GET", "/point/row/");
+    try {
+      const { data } = await api("GET", "/point/row/");
 
-    const lineData = data.map((driver, i) => ({
-      key: i.toString(),
-      id: driver.id,
-      position: 2,
-      name: driver.user.name,
-      image: driver.user.photo,
-      vtr: driver.user.vtr,
-      user_id: driver.user_id,
-    }));
+      const lineData = data.map((driver, i) => ({
+        key: i.toString(),
+        id: driver.id,
+        position: `${driver.position}°`,
+        name: driver.user.name,
+        image: driver.user.photo,
+        vtr: `VTR ${driver.user.vtr || ""}`,
+        user_id: driver.user_id,
+      }));
 
-    setLines(lineData);
+      setLines(lineData);
+    } catch (err) {
+      console.log(`Error at LineCars API req:\n${err}`);
+    }
   }
 
   async function moveUserRow(userData, positionHeading) {
     try {
       enableLoadingSpinnerModal();
+      const currentPos = Number(userData.position.replace(/\D/g, ""));
+      const positionForMove = positionHeading == "up" ? currentPos - 1 : currentPos + 1;
+      console.log(positionForMove);
+
       await api("PUT", "/point/row/", {
         user: userData.user_id,
-        position: positionHeading == "up" ? userData.position - 1 : userData.position + 1,
+        position: positionForMove,
       });
       disableLoadingSpinnerModal();
     } catch (err) {
@@ -116,7 +125,9 @@ export default function LineCars() {
   };
 
   const renderItem = (data) => (
-    <Line key={data.item.key} line={data.item} status={parseInt(data.item.key) < 5} />
+    <View>
+      <Line key={data.item.key} line={data.item} status={parseInt(data.item.key) < 5} />
+    </View>
   );
 
   const renderHiddenItem = (data, rowMap) => (
