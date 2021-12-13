@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 
 import * as S from "./styles";
 
@@ -8,26 +8,27 @@ import UserInfo from "../../../../components/UserInfo";
 import LoadingSpinner from "../../../../components/LoadingSpinner";
 
 import api from "../../../../Services/api";
-import { useAuth } from "../../../../contexts/auth";
 
 const Points = () => {
   const navigation = useNavigation();
-  const auth = useAuth();
+  const isFocused = useIsFocused();
   const [pointsList, setPointsList] = useState([]);
   const [PointListLoading, setPointListLoading] = useState(true);
 
   useEffect(() => {
-    fetchPoints();
-  }, []);
-
-  useFocusEffect(() => {
-    return () => fetchPoints();
-  });
+    if (isFocused) {
+      fetchPoints();
+    }
+  }, [isFocused]);
 
   async function fetchPoints() {
-    const { data } = await api("GET", "/point/");
-    setPointsList(data.points);
-    setPointListLoading(false);
+    try {
+      const { data } = await api("GET", "/point/");
+      setPointsList(data.points);
+      setPointListLoading(false);
+    } catch (err) {
+      console.log(`Error fetching points data\n:${err}`);
+    }
   }
 
   function handleCreatePointButton() {
