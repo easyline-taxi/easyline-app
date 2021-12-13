@@ -42,7 +42,7 @@ export const WebSocketProvider = ({ children }) => {
     };
 
     socket.onmessage = (e) => {
-      const receivedData = JSON.parse(JSON.stringify(e.data));
+      const receivedData = JSON.parse(e.data);
       setSocketMessagesData(receivedData);
     };
   }
